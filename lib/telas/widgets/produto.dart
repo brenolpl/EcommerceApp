@@ -22,7 +22,7 @@ class ProdutoWidget extends StatelessWidget {
               Text("${produto.preco_custo}"),
               Text("Api do frete aqui")
             ],
-          )
+          ),
         ],
       ),
     );

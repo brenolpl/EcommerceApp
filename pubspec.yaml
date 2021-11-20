@@ -38,6 +38,7 @@ dependencies:
   cloud_firestore: ^0.16.0+1
   toast: ^0.1.5
   fluttertoast: ^8.0.8
+  intl:
 
 dev_dependencies:
   flutter_test:

@@ -6,7 +6,7 @@ class Produto {
   late String nome;
   late String imagePath;
   late Timestamp dataInclusao;
-  late ProdutoCategoria categoria;
+  late ProdutoCategoria? categoria;
   late double preco_custo;
   late double preco_compra;
   late String descricao;
@@ -19,5 +19,9 @@ class Produto {
     preco_custo = map['preco_custo'];
     preco_compra = map['preco_compra'];
     descricao = map['descricao'];
+  }
+
+  static obterProdutos(){
+
   }
 }

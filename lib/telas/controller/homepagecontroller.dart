@@ -18,7 +18,7 @@ INSERT INTO product (sku, name, description, image_url, active, units_in_stock, 
 INSERT INTO product (sku, name, description, image_url, active, units_in_stock, unit_price, category_id,date_created) VALUES ('BOOK-TECH-1023', 'Advanced Techniques in C#', 'Learn C# at your own pace. The author explains how the technology works in easy-to-understand language. This book includes working examples that you can apply to your own projects. Purchase the book and get started today!', 'assets/images/products/books/book-luv2code-1023.png', 1, 100, 22.99, 1, NOW());
 INSERT INTO product (sku, name, description, image_url, active, units_in_stock, unit_price, category_id,date_created) VALUES ('BOOK-TECH-1024', 'The Expert Guide to Machine Learning', 'Learn Machine Learning at your own pace. The author explains how the technology works in easy-to-understand language. This book includes working examples that you can apply to your own projects. Purchase the book and get started today!', 'assets/images/products/books/book-luv2code-1024.png', 1, 100, 16.99, 1, NOW());
  */
-  static List<Produto> popular(){
+  static Future<List<Produto>> popular() async{
     List<Produto> produtosList = [];
     late ProdutoCategoria produtoCategoria;
     late Produto produto;
@@ -27,8 +27,7 @@ INSERT INTO product (sku, name, description, image_url, active, units_in_stock, 
         .listen((data) {
       produtoCategoria = ProdutoCategoria.fromMap(data.docs[0]);
     });
-    CollectionReference produtosCollection = FirebaseFirestore.instance.collection("produtos");
-    produtosCollection.snapshots().listen((data) {
+    FirebaseFirestore.instance.collection("produtos").snapshots().listen((data) {
       data.docs.forEach((element) {
         produto = Produto.fromMap(element);
         produto.categoria = produtoCategoria;

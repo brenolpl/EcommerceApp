@@ -1,6 +1,7 @@
 import 'package:appflutter/common/defaultbutton.dart';
 import 'package:appflutter/common/defaulteditfield.dart';
 import 'package:appflutter/telas/controller/logincontroller.dart';
+import 'package:appflutter/util/nav.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {

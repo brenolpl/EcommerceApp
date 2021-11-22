@@ -4,7 +4,6 @@ class Usuario {
   late String id;
   late String email;
   late String nome;
-  late DateTime data_nascimento;
   late String imagePath;
 
   Usuario.fromMap(Map<String, dynamic> map){

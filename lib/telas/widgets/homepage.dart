@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text("EcommerceApp"),
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart_outlined),
+            icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {
               push(context, Carrinho(_carrinhoController));
             },

@@ -1,6 +1,7 @@
 import 'package:appflutter/telas/controller/carrinhocontroller.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'homepage.dart';
 import 'itemcarrinho.dart';
@@ -16,7 +17,6 @@ class Carrinho extends StatefulWidget {
 
 class _CarrinhoState extends State<Carrinho> {
   late CarrinhoController _carrinhoController;
-
   @override
   void initState() {
     super.initState();
@@ -30,7 +30,7 @@ class _CarrinhoState extends State<Carrinho> {
         title: Text("Carrinho"),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             onPressed: (){
               _carrinhoController.listaProdutos = [];
               pop(context);
@@ -44,7 +44,7 @@ class _CarrinhoState extends State<Carrinho> {
 
   _body() {
     if(_carrinhoController.listaProdutos.isEmpty){
-      return Center(
+      return const Center(
         child: Text("Carrinho Vazio", textAlign: TextAlign.center, style: TextStyle(
             fontSize: 20
           )

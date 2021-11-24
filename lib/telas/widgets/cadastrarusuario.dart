@@ -147,13 +147,11 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                 controller: _cadastrarUsuarioController.dataNascimentoController,
                 inputFormatters: [dateMask],
                 validator: (String? text){
-                  print(text);
                   if(text != null && text.isNotEmpty){
                     try{
                       initializeDateFormatting("pt_BR", null);
                       var format = DateFormat('dd/MM/yyyy');
                       DateTime date = format.parse(text);
-                      print(date);
                       if(DateTime.now().isBefore(date)){
                         return "Data de nascimento inválida!";
                       }

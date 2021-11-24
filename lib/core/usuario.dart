@@ -9,7 +9,7 @@ class Usuario {
   late String nome;
   late String senha;
   late String cpf;
-  late DateTime dataNascimento;
+  late Timestamp dataNascimento;
   late String telefone;
   late String? endereco_id;
   late bool admin;

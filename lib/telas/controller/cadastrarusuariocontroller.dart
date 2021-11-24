@@ -78,7 +78,7 @@ class CadastrarUsuarioController {
       usuario.nome = nomeController.text.trim();
       usuario.cpf = cpfController.text.trim();
       DateFormat formatter = DateFormat("dd/MM/yyyy");
-      usuario.dataNascimento = formatter.parse(dataNascimentoController.text.trim());
+      usuario.dataNascimento = Timestamp.fromDate(formatter.parse(dataNascimentoController.text.trim()));
       usuario.telefone = telefoneController.text.trim();
       endereco.cep = cepController.text.trim();
       endereco.endereco = enderecoController.text.trim();

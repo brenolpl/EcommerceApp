@@ -24,5 +24,5 @@ void businessException(String ex, BuildContext context){
       mensagem = "Ocorreu um erro inesperado, contate o administrado!";
       break;
   }
-  Fluttertoast.showToast(msg: mensagem, gravity: ToastGravity.CENTER, textColor: Colors.red, backgroundColor: Colors.black12);
+  Fluttertoast.showToast(msg: mensagem, gravity: ToastGravity.CENTER, textColor: Colors.red, backgroundColor: Colors.black12, timeInSecForIosWeb: 10);
 }

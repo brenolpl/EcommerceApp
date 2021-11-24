@@ -21,7 +21,7 @@ class _InicioState extends State<Inicio> {
           const Center(child: CircularProgressIndicator()),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.only(bottom: 100),
+            padding: const EdgeInsets.only(bottom: 100),
             child: const Text(
               "EcommerceApp",
               style: TextStyle(

@@ -38,7 +38,12 @@ class MyApp extends StatelessWidget {
             }
 
             // Otherwise, show something whilst waiting for initialization to complete
-            return Text("CARREGANDO CARAI PERAI");
+            return Container(
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              color: Colors.cyan,
+            );
           }),
     );
 

@@ -16,8 +16,7 @@ class InicioController {
         FirebaseFirestore.instance.collection("users").where("email", isEqualTo: "${user.email}")
         .snapshots()
         .listen((data) {
-          usuario = Usuario.fromMap(data.docs[0].data());
-          usuario.id = data.docs[0].id;
+          usuario = Usuario.fromMap(data.docs[0]);
           push(context, HomePage(usuario), replace: true);
         });
       }

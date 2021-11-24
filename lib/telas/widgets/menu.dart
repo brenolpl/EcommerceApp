@@ -4,6 +4,7 @@ import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/widgets/editprofile.dart';
 import 'package:appflutter/telas/widgets/login.dart';
 import 'package:appflutter/util/nav.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends StatefulWidget {
@@ -20,7 +21,6 @@ class _MenuState extends State<Menu> {
   @override
   void initState() {
     super.initState();
-    //usuarioFuture = usuario.getFutureUser();
   }
 
   @override
@@ -29,31 +29,6 @@ class _MenuState extends State<Menu> {
       child: Drawer(
         child: ListView(
           children: [
-            // FutureBuilder<Usuario>(
-            //   future: usuarioFuture,
-            //   builder: (context, snapshot){
-            //     usuario = snapshot.data;
-            //     if(usuario == null){
-            //       return Container();
-            //     }else if(usuario!.imagePath != null){
-            //       Future<File> fileFuture = FileManager.getImage(usuario!.imagePath!);
-            //       return FutureBuilder<File>(
-            //         future: fileFuture,
-            //         builder: (context, snapshot) {
-            //           if(!snapshot.hasData){
-            //             return const Center(
-            //               child: CircularProgressIndicator(),
-            //             );
-            //           }
-            //           File? image = snapshot.data;
-            //           return _header(FileImage(image!));
-            //         },
-            //       );
-            //     }else{
-            //       return _header(const AssetImage("assets/icon/fav-icon.png"));
-            //     }
-            //   },
-            // ),
             ListTile(
               leading: const Icon(Icons.edit),
               title: const Text("Editar Perfil"),
@@ -69,6 +44,7 @@ class _MenuState extends State<Menu> {
               trailing: const Icon(Icons.arrow_forward),
               onTap: () {
                 pop(context);
+                FirebaseAuth.instance.signOut();
                 push(context, const Login(), replace: true);
               },
             )

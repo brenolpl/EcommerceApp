@@ -57,8 +57,7 @@ class LoginController {
   _gotoHomePage(User user, BuildContext context){
     _usersCollection.where("email", isEqualTo: "${user.email}").snapshots()
         .listen((data) {
-        Usuario usuario = Usuario.fromMap(data.docs[0].data());
-        usuario.id = data.docs[0].id;
+        Usuario usuario = Usuario.fromMap(data.docs[0]);
         push(context, HomePage(usuario), replace: true);
     });
   }

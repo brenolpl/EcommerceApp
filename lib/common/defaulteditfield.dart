@@ -46,9 +46,6 @@ class DefaultEditField extends StatelessWidget {
         color: Colors.black,
       ),
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(60)
-        ),
         labelText: tip,
         labelStyle: const TextStyle(
           fontSize: 14,

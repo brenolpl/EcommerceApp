@@ -1,6 +1,7 @@
 import 'package:appflutter/common/defaultbutton.dart';
 import 'package:appflutter/common/defaulteditfield.dart';
 import 'package:appflutter/telas/controller/logincontroller.dart';
+import 'package:appflutter/telas/widgets/cadastrarusuario.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("EcommerceApp"),
       ),
       body: _body(),
     );
@@ -82,7 +83,7 @@ class _LoginState extends State<Login> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(60),
                   onTap: (){
-                    _loginController.signUp(context);
+                    push(context, CadastrarUsuario(_loginController));
                   },
                   child: const Text(
                     "SIGN UP",

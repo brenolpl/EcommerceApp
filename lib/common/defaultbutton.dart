@@ -29,8 +29,12 @@ class DefaultButton extends StatelessWidget {
             : Text(
                 text,
                 style: TextStyle(color: color, fontSize: 18),
+                textAlign: TextAlign.center,
               ),
         focusNode: focusOutput,
+        style: ButtonStyle(
+            shape: MaterialStateProperty.all(const StadiumBorder())
+        ),
       ),
     );
   }

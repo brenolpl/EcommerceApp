@@ -1,4 +1,5 @@
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/widgets/admlistaproduto.dart';
 import 'package:appflutter/telas/widgets/login.dart';
 import 'package:appflutter/telas/widgets/homepage.dart';
 import 'package:appflutter/util/nav.dart';
@@ -17,7 +18,11 @@ class InicioController {
         .snapshots()
         .listen((data) {
           usuario = Usuario.fromMap(data.docs[0]);
-          push(context, HomePage(usuario), replace: true);
+          if(usuario.admin){
+            push(context, AdmListaProduto(usuario), replace: true);
+          }else {
+            push(context, HomePage(usuario), replace: true);
+          }
         });
       }
     });

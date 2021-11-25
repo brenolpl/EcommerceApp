@@ -1,6 +1,8 @@
 import 'package:appflutter/core/produto.dart';
+import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/controller/homepagecontroller.dart';
 import 'package:appflutter/telas/widgets/carrinho.dart';
+import 'package:appflutter/telas/widgets/menu.dart';
 import 'package:appflutter/telas/widgets/produto.dart';
 import 'package:appflutter/telas/widgets/produtoEdit.dart';
 import 'package:appflutter/telas/widgets/produtodetail.dart';
@@ -9,16 +11,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AdmListaProduto extends StatefulWidget {
-
-  AdmListaProduto({Key? key}) : super(key: key);
+  Usuario userAdmin;
+  AdmListaProduto(this.userAdmin, {Key? key}) : super(key: key);
 
   @override
-  _EditProductState createState() => _EditProductState();
+  _AdmListaProduto createState() => _AdmListaProduto();
 }
 
 
 
-class _EditProductState extends State<AdmListaProduto> {
+class _AdmListaProduto extends State<AdmListaProduto> {
 
   late Future<List<Produto>> produtosFuture;
   late List<Produto> produtos;
@@ -33,11 +35,12 @@ class _EditProductState extends State<AdmListaProduto> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      drawer: Menu(widget.userAdmin),
       appBar: AppBar(
-        title: Text("Lista de Produtos"),
+        title: const Text("Lista de Produtos"),
         actions: [
           IconButton(
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
               onPressed: (){
                 //Adicionar Produto
               }
@@ -45,7 +48,7 @@ class _EditProductState extends State<AdmListaProduto> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           //Colocar para Adicionar Produto
         },),
@@ -53,7 +56,7 @@ class _EditProductState extends State<AdmListaProduto> {
       body: FutureBuilder<List<Produto>>(
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text("ERRO");
+              return const Text("ERRO");
             }
             if (snapshot.data != null) {
               produtos = snapshot.data!;
@@ -81,7 +84,7 @@ class _EditProductState extends State<AdmListaProduto> {
                   });
             }
 
-            return const Expanded(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           },
           future: produtosFuture
       ),

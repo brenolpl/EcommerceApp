@@ -23,6 +23,11 @@ class Usuario {
     cpf = map['cpf'];
     dataNascimento = map['dataNascimento'];
     telefone = map['telefone'];
+    if(map.data().containsKey("admin")){
+      admin = map['admin'];
+    }else{
+      admin = false;
+    }
   }
 
   Map<String, dynamic> toMap(){

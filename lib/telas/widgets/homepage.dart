@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Menu(),
+      drawer: Menu(widget.usuario),
       appBar: AppBar(
         title: const Text("EcommerceApp"),
         actions: [
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   });
             }
 
-            return const Expanded(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           },
           future: produtosFuture
       ),

@@ -9,7 +9,7 @@ Future push(BuildContext context, Widget page, {bool replace = false}){
 }
 
 void pop(BuildContext context, {String mensagem = ""}){
-  if(!mensagem.isEmpty){
+  if(mensagem.isEmpty){
     Navigator.of(context).pop();
   }else{
     Navigator.pop(context, mensagem);

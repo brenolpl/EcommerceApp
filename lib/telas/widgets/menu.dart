@@ -8,15 +8,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends StatefulWidget {
-  const Menu({Key? key}) : super(key: key);
+  Usuario usuario;
+
+  Menu(this.usuario, {Key? key}) : super(key: key);
 
   @override
   _MenuState createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
-  Usuario? usuario;
-  late Future<Usuario> usuarioFuture;
 
   @override
   void initState() {
@@ -35,8 +35,10 @@ class _MenuState extends State<Menu> {
               trailing: const Icon(Icons.arrow_forward),
               onTap: () async {
                 pop(context);
-                push(context, EditProfile(usuario!));
+                push(context, EditProfile(widget.usuario));
               },
+              enabled: !widget.usuario.admin,
+
             ),
             ListTile(
               leading: const Icon(Icons.exit_to_app),
@@ -50,16 +52,6 @@ class _MenuState extends State<Menu> {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  UserAccountsDrawerHeader _header(ImageProvider imageProvider){
-    return UserAccountsDrawerHeader(
-      accountName: Text(usuario!.nome),
-      accountEmail: Text(usuario!.email),
-      currentAccountPicture: CircleAvatar(
-        backgroundImage: imageProvider,
       ),
     );
   }

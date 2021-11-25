@@ -1,4 +1,5 @@
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/widgets/admlistaproduto.dart';
 import 'package:appflutter/telas/widgets/homepage.dart';
 import 'package:appflutter/util/businessexception.dart';
 import 'package:appflutter/util/nav.dart';
@@ -58,7 +59,11 @@ class LoginController {
     _usersCollection.where("email", isEqualTo: "${user.email}").snapshots()
         .listen((data) {
         Usuario usuario = Usuario.fromMap(data.docs[0]);
-        push(context, HomePage(usuario), replace: true);
+        if(usuario.admin){
+          push(context, AdmListaProduto(usuario), replace: true);
+        }else{
+          push(context, HomePage(usuario), replace: true);
+        }
     });
   }
 }

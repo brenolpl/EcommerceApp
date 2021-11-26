@@ -23,4 +23,16 @@ class Endereco {
     cidade = map['cidade'];
     estado = map['estado'];
   }
+
+  Map<String, dynamic> toMap(){
+    final Map<String, dynamic> data = {};
+    data['cep'] = cep;
+    data['endereco'] = endereco;
+    data['estado'] = estado;
+    data['bairro'] = bairro;
+    data['numero'] = numero;
+    data['referencia'] = referencia;
+    data['cidade'] = cidade;
+    return data;
+  }
 }

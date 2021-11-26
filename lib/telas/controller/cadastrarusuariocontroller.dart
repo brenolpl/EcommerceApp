@@ -38,7 +38,6 @@ class CadastrarUsuarioController {
       Usuario usuario = Usuario();
       usuario.admin = false;
       usuario.email = emailController.text.trim();
-      usuario.senha = senhaController.text.trim();
       usuario.nome = nomeController.text.trim();
       usuario.cpf = cpfController.text.trim();
       DateFormat formatter = DateFormat("dd/MM/yyyy");
@@ -52,24 +51,9 @@ class CadastrarUsuarioController {
       endereco.referencia = _cadastrarEnderecoController.referenciaController.text.trim();
       endereco.cidade = _cadastrarEnderecoController.cidadeController.text.trim();
       try{
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: usuario.email, password: usuario.senha);
-        Future<DocumentReference> usersFuture = _usersCollection.add({
-          'email': usuario.email,
-          'nome': usuario.nome,
-          'cpf': usuario.cpf,
-          'dataNascimento': usuario.dataNascimento,
-          'telefone': usuario.telefone,
-
-        });
-        Future<DocumentReference> enderecoFuture = _enderecoCollection.add({
-          'cep': endereco.cep,
-          'endereco': endereco.endereco,
-          'estado': endereco.estado,
-          'bairro': endereco.bairro,
-          'numero': endereco.numero,
-          'referencia': endereco.referencia,
-          'cidade': endereco.cidade
-        });
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: usuario.email, password: senhaController.text.trim());
+        Future<DocumentReference> usersFuture = _usersCollection.add(usuario.toMap());
+        Future<DocumentReference> enderecoFuture = _enderecoCollection.add(endereco.toMap());
         Future.wait([usersFuture, enderecoFuture]).then((List<DocumentReference> value) {
           usuario.id = value[0].id;
           endereco.id = value[1].id;
@@ -89,23 +73,5 @@ class CadastrarUsuarioController {
 
   _gotoHomePage(Usuario usuario, BuildContext context){
       push(context, HomePage(usuario), replace: true);
-  }
-
-  _relacionarUsuarioEndereco(Usuario usuario, Endereco endereco) {
-    Usuario usuarioBanco = Usuario();
-    Endereco enderecoBanco = Endereco();
-    _usersCollection.where("email", isEqualTo: usuario.email).snapshots().listen((data) {
-      usuarioBanco = Usuario.fromMap(data.docs[0]);
-    });
-
-    _enderecoCollection.where("cep", isEqualTo: endereco.cep).snapshots().listen((data) {
-      enderecoBanco = Endereco.fromMap(data.docs[0]);
-    });
-
-    if(usuarioBanco.id != null && enderecoBanco.id != null){
-      _usersCollection.doc(usuarioBanco.id).update({"endereco_id": enderecoBanco.id});
-     _enderecoCollection.doc(enderecoBanco.id).update({"usuario_id": usuarioBanco.id});
-    }
-
   }
 }

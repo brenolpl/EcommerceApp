@@ -7,7 +7,6 @@ class Usuario {
   late String id;
   late String email;
   late String nome;
-  late String senha;
   late String cpf;
   late Timestamp dataNascimento;
   late String telefone;
@@ -32,7 +31,11 @@ class Usuario {
 
   Map<String, dynamic> toMap(){
     final Map<String, dynamic> data = {};
-    data['email'] = this.email;
+    data['email'] = email;
+    data['nome'] = nome;
+    data['cpf'] = cpf;
+    data['dataNascimento'] = dataNascimento;
+    data['telefone'] = telefone;
     return data;
   }
 

@@ -1,5 +1,6 @@
 import 'package:appflutter/core/endereco.dart';
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/widgets/homepage.dart';
 import 'package:appflutter/util/businessexception.dart';
 import 'package:appflutter/util/nav.dart';
@@ -10,49 +11,16 @@ import 'package:intl/intl.dart';
 
 class CadastrarUsuarioController {
   late final formKey = GlobalKey<FormState>();
-  late String estado;
   late final TextEditingController emailController;
   late final TextEditingController senhaController;
   late final TextEditingController nomeController;
   late final TextEditingController cpfController;
   late final TextEditingController dataNascimentoController;
   late final TextEditingController telefoneController;
-  late final TextEditingController cepController;
-  late final TextEditingController enderecoController;
-  late final TextEditingController numeroController;
-  late final TextEditingController cidadeController;
-  late final TextEditingController bairroController;
-  late final TextEditingController referenciaController;
+  late CadastrarEnderecoController _cadastrarEnderecoController;
   CollectionReference get _usersCollection => FirebaseFirestore.instance.collection("users");
   CollectionReference get _enderecoCollection => FirebaseFirestore.instance.collection("endereco");
-  final List<String> estados = [
-    "Acre (AC)",
-  "Alagoas (AL)",
-  "Amapá (AP)",
-  "Amazonas (AM)",
-  "Bahia (BA)",
-  "Ceará (CE)",
-  "Distrito Federal (DF)",
-  "Espírito Santo (ES)",
-  "Goiás (GO)",
-  "Maranhão (MA)",
-  "Mato Grosso (MT)",
-  "Mato Grosso do Sul (MS)",
-  "Minas Gerais (MG)",
-  "Pará (PA)",
-  "Paraíba (PB)",
-  "Paraná (PR)",
-  "Pernambuco (PE)",
-  "Piauí (PI)",
-  "Rio de Janeiro (RJ)",
-  "Rio Grande do Norte (RN)",
-  "Rio Grande do Sul (RS)",
-  "Rondônia (RO)",
-  "Roraima (RR)",
-  "Santa Catarina (SC)",
-  "São Paulo (SP)",
-  "Sergipe (SE)",
-  "Tocantins (TO)"];
+
 
   CadastrarUsuarioController(){
     emailController = TextEditingController();
@@ -61,18 +29,14 @@ class CadastrarUsuarioController {
     cpfController = TextEditingController();
     dataNascimentoController = TextEditingController();
     telefoneController = TextEditingController();
-    cepController = TextEditingController();
-    enderecoController= TextEditingController();
-    numeroController = TextEditingController();
-    bairroController = TextEditingController();
-    referenciaController = TextEditingController();
-    cidadeController = TextEditingController();
   }
 
-  void signUp(BuildContext context) async {
+  void signUp(BuildContext context, CadastrarEnderecoController cadastrarEnderecoController) async {
+    _cadastrarEnderecoController = cadastrarEnderecoController;
     if(formKey.currentState!.validate()){
       Endereco endereco = Endereco();
       Usuario usuario = Usuario();
+      usuario.admin = false;
       usuario.email = emailController.text.trim();
       usuario.senha = senhaController.text.trim();
       usuario.nome = nomeController.text.trim();
@@ -80,13 +44,13 @@ class CadastrarUsuarioController {
       DateFormat formatter = DateFormat("dd/MM/yyyy");
       usuario.dataNascimento = Timestamp.fromDate(formatter.parse(dataNascimentoController.text.trim()));
       usuario.telefone = telefoneController.text.trim();
-      endereco.cep = cepController.text.trim();
-      endereco.endereco = enderecoController.text.trim();
-      endereco.estado = estado;
-      endereco.bairro = bairroController.text.trim();
-      endereco.numero = numeroController.text.trim();
-      endereco.referencia = referenciaController.text.trim();
-      endereco.cidade = cidadeController.text.trim();
+      endereco.cep = _cadastrarEnderecoController.cepController.text.trim();
+      endereco.endereco = _cadastrarEnderecoController.enderecoController.text.trim();
+      endereco.estado = _cadastrarEnderecoController.estado;
+      endereco.bairro = _cadastrarEnderecoController.bairroController.text.trim();
+      endereco.numero = _cadastrarEnderecoController.numeroController.text.trim();
+      endereco.referencia = _cadastrarEnderecoController.referenciaController.text.trim();
+      endereco.cidade = _cadastrarEnderecoController.cidadeController.text.trim();
       try{
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: usuario.email, password: usuario.senha);
         Future<DocumentReference> usersFuture = _usersCollection.add({

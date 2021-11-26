@@ -1,13 +1,20 @@
 import 'package:appflutter/core/endereco.dart';
-import 'package:appflutter/telas/controller/cadastrarusuariocontroller.dart';
+import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CadastrarEndereco extends StatefulWidget {
-  CadastrarUsuarioController _cadastrarUsuarioController;
   Endereco? endereco;
+  bool readOnly;
+  late CadastrarEnderecoController cadastrarEnderecoController;
 
-  CadastrarEndereco(this._cadastrarUsuarioController, {this.endereco});
+  CadastrarEndereco({controller, this.endereco, this.readOnly = false}){
+    if(controller == null) {
+      cadastrarEnderecoController = CadastrarEnderecoController();
+    }else{
+      cadastrarEnderecoController = controller;
+    }
+  }
 
   @override
   State<CadastrarEndereco> createState() => _CadastrarEnderecoState();
@@ -20,14 +27,14 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
 
   void initState() {
     super.initState();
-    dropdownText = widget._cadastrarUsuarioController.estados.first;
+    dropdownText = widget.cadastrarEnderecoController.estados.first;
     if(widget.endereco != null){
-      widget._cadastrarUsuarioController.cepController.value = TextEditingValue(text: widget.endereco!.cep);
-      widget._cadastrarUsuarioController.enderecoController.value = TextEditingValue(text: widget.endereco!.endereco);
-      widget._cadastrarUsuarioController.cidadeController.value = TextEditingValue(text: widget.endereco!.cidade);
-      widget._cadastrarUsuarioController.bairroController.value = TextEditingValue(text: widget.endereco!.bairro);
-      widget._cadastrarUsuarioController.numeroController.value = TextEditingValue(text: widget.endereco!.numero);
-      widget._cadastrarUsuarioController.referenciaController.value = TextEditingValue(text: widget.endereco!.referencia);
+      widget.cadastrarEnderecoController.cepController.value = TextEditingValue(text: widget.endereco!.cep);
+      widget.cadastrarEnderecoController.enderecoController.value = TextEditingValue(text: widget.endereco!.endereco);
+      widget.cadastrarEnderecoController.cidadeController.value = TextEditingValue(text: widget.endereco!.cidade);
+      widget.cadastrarEnderecoController.bairroController.value = TextEditingValue(text: widget.endereco!.bairro);
+      widget.cadastrarEnderecoController.numeroController.value = TextEditingValue(text: widget.endereco!.numero);
+      widget.cadastrarEnderecoController.referenciaController.value = TextEditingValue(text: widget.endereco!.referencia);
       dropdownText = widget.endereco!.estado;
     }
   }
@@ -39,7 +46,8 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
       physics: const ClampingScrollPhysics(),
       children: [
         TextFormField(
-          controller: widget._cadastrarUsuarioController.cepController,
+          controller: widget.cadastrarEnderecoController.cepController,
+          readOnly: widget.readOnly,
           keyboardType: TextInputType.text,
           inputFormatters: [cepMask],
           validator: (String? text) {
@@ -55,7 +63,8 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
               )),
         ),
         TextFormField(
-          controller: widget._cadastrarUsuarioController.enderecoController,
+          controller: widget.cadastrarEnderecoController.enderecoController,
+          readOnly: widget.readOnly,
           keyboardType: TextInputType.text,
           validator: (String? text) {
             if (text!.isEmpty) {
@@ -70,7 +79,8 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
               )),
         ),
         TextFormField(
-          controller: widget._cadastrarUsuarioController.cidadeController,
+          controller: widget.cadastrarEnderecoController.cidadeController,
+          readOnly: widget.readOnly,
           keyboardType: TextInputType.text,
           validator: (String? text) {
             if (text!.isEmpty) {
@@ -85,7 +95,8 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
               )),
         ),
         TextFormField(
-          controller: widget._cadastrarUsuarioController.bairroController,
+          controller: widget.cadastrarEnderecoController.bairroController,
+          readOnly: widget.readOnly,
           keyboardType: TextInputType.text,
           validator: (String? text) {
             if (text!.isEmpty) {
@@ -100,7 +111,8 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
               )),
         ),
         TextFormField(
-          controller: widget._cadastrarUsuarioController.numeroController,
+          controller: widget.cadastrarEnderecoController.numeroController,
+          readOnly: widget.readOnly,
           keyboardType: TextInputType.number,
           validator: (String? text) {
             if (text!.isEmpty) {
@@ -123,10 +135,10 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
           onChanged: (String? newValue) {
             setState(() {
               dropdownText = newValue!;
-              widget._cadastrarUsuarioController.estado = dropdownText;
+              widget.cadastrarEnderecoController.estado = dropdownText;
             });
           },
-          items: widget._cadastrarUsuarioController.estados
+          items: widget.cadastrarEnderecoController.estados
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
@@ -135,7 +147,8 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
           }).toList(),
         ),
         TextFormField(
-          controller: widget._cadastrarUsuarioController.referenciaController,
+          controller: widget.cadastrarEnderecoController.referenciaController,
+          readOnly: widget.readOnly,
           keyboardType: TextInputType.number,
           decoration: const InputDecoration(
               labelText: "Ponto de referência (opcional)",

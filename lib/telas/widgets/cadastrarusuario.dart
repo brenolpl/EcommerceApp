@@ -1,5 +1,6 @@
 
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/controller/cadastrarusuariocontroller.dart';
 import 'package:appflutter/telas/controller/logincontroller.dart';
 import 'package:appflutter/telas/widgets/cadastrarendereco.dart';
@@ -25,12 +26,14 @@ class CadastrarUsuario extends StatefulWidget {
 
 class _CadastrarUsuarioState extends State<CadastrarUsuario> {
   late CadastrarUsuarioController _cadastrarUsuarioController;
+  late CadastrarEnderecoController _cadastrarEnderecoController;
   final maskCpf = MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
   final dateMask = MaskTextInputFormatter(mask: "##/##/####", filter: {"#": RegExp(r'[0-9]')});
   final phoneMask = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r'[0-9]')});
   @override
   void initState() {
     _cadastrarUsuarioController = CadastrarUsuarioController();
+    _cadastrarEnderecoController = CadastrarEnderecoController();
     if(widget.usuario != null) {
       _cadastrarUsuarioController.emailController.value = TextEditingValue(text: widget.usuario!.email);
       _cadastrarUsuarioController.nomeController.value = TextEditingValue(text: widget.usuario!.nome);
@@ -217,7 +220,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                 ),
                 alignment: Alignment.centerLeft,
               ),
-              !widget.readOnly? CadastrarEndereco(_cadastrarUsuarioController) : ListarEndereco(widget.usuario),
+              !widget.readOnly? CadastrarEndereco(controller: _cadastrarEnderecoController) : ListarEndereco(widget.usuario),
               !widget.readOnly ? Container(
                 height: 46,
                 child: ElevatedButton(
@@ -233,7 +236,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                         fontWeight: FontWeight.normal),
                   ),
                   onPressed: () {
-                    _cadastrarUsuarioController.signUp(context);
+                    _cadastrarUsuarioController.signUp(context, _cadastrarEnderecoController);
                   },
                 ),
               ) :

@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasError) {
               return Text("ERRO");
             }
-            if (snapshot.data != null) {
+            if (snapshot.hasData) {
               produtos = snapshot.data!;
               print("PRODUTOS");
               print(produtos);

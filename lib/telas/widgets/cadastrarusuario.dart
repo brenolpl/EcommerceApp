@@ -1,6 +1,9 @@
 
+import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/controller/cadastrarusuariocontroller.dart';
 import 'package:appflutter/telas/controller/logincontroller.dart';
+import 'package:appflutter/telas/widgets/cadastrarendereco.dart';
+import 'package:appflutter/telas/widgets/listarendereco.dart';
 import 'package:appflutter/util/businessexception.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,9 +14,10 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class CadastrarUsuario extends StatefulWidget {
-  LoginController _loginController;
-
-  CadastrarUsuario(this._loginController);
+  String appBarTitle;
+  bool readOnly;
+  Usuario? usuario;
+  CadastrarUsuario(this.appBarTitle, this.readOnly, {this.usuario = null});
 
   @override
   _CadastrarUsuarioState createState() => _CadastrarUsuarioState();
@@ -21,22 +25,28 @@ class CadastrarUsuario extends StatefulWidget {
 
 class _CadastrarUsuarioState extends State<CadastrarUsuario> {
   late CadastrarUsuarioController _cadastrarUsuarioController;
-  late String dropdownText;
+  final maskCpf = MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
+  final dateMask = MaskTextInputFormatter(mask: "##/##/####", filter: {"#": RegExp(r'[0-9]')});
+  final phoneMask = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r'[0-9]')});
   @override
   void initState() {
     _cadastrarUsuarioController = CadastrarUsuarioController();
-    dropdownText = _cadastrarUsuarioController.estados.first;
+    if(widget.usuario != null) {
+      _cadastrarUsuarioController.emailController.value = TextEditingValue(text: widget.usuario!.email);
+      _cadastrarUsuarioController.nomeController.value = TextEditingValue(text: widget.usuario!.nome);
+      _cadastrarUsuarioController.cpfController.value = TextEditingValue(text: widget.usuario!.cpf);
+      initializeDateFormatting("pt_BR", null);
+      DateFormat formatter = DateFormat("dd/MM/yyyy");
+      String date = formatter.format(widget.usuario!.dataNascimento.toDate());
+      _cadastrarUsuarioController.dataNascimentoController.value = TextEditingValue(text: date);
+    _cadastrarUsuarioController.telefoneController.value = TextEditingValue(text: widget.usuario!.telefone);
+    }
   }
-
   @override
   Widget build(BuildContext context) {
-    final maskCpf = MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
-    final dateMask = MaskTextInputFormatter(mask: "##/##/####", filter: {"#": RegExp(r'[0-9]')});
-    final phoneMask = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r'[0-9]')});
-    final cepMask = MaskTextInputFormatter(mask: "#####-###", filter: {"#": RegExp(r'[0-9]')});
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cadastrar novo usuário", style: TextStyle(fontWeight: FontWeight.normal),),
+        title: Text(widget.appBarTitle, style: const TextStyle(fontWeight: FontWeight.normal)),
       ),
       body: Form(
         key: _cadastrarUsuarioController.formKey,
@@ -59,6 +69,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
               TextFormField(
                 controller: _cadastrarUsuarioController.emailController,
                 keyboardType: TextInputType.emailAddress,
+                readOnly: widget.readOnly,
                 validator: (String? text){
                   if(text!.isEmpty){
                     return "O Campo $text é obrigatório!";
@@ -75,8 +86,9 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                     )
                 ),
               ),
-              TextFormField(
+              !widget.readOnly ? TextFormField(
                 obscureText: true,
+                readOnly: widget.readOnly,
                 decoration: const InputDecoration(
                     labelText: "Senha",
                     labelStyle: TextStyle(
@@ -95,7 +107,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                     }
                     return null;
                 },
-              ),
+              ): Container(),
               const SizedBox(
                 height: 25,
               ),
@@ -111,6 +123,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
               ),
               TextFormField(
                 controller: _cadastrarUsuarioController.nomeController,
+                readOnly: widget.readOnly,
                 validator: (String? text){
                   if(text!.isEmpty){
                     return "O Campo $text é obrigatório!";
@@ -126,6 +139,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
               ),
               TextFormField(
                 controller: _cadastrarUsuarioController.cpfController,
+                readOnly: widget.readOnly,
                 inputFormatters: [maskCpf],
                 validator: (String? text){
                   if(text!.isEmpty){
@@ -145,6 +159,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
               ),
               TextFormField(
                 controller: _cadastrarUsuarioController.dataNascimentoController,
+                readOnly: widget.readOnly,
                 inputFormatters: [dateMask],
                 validator: (String? text){
                   if(text != null && text.isNotEmpty){
@@ -173,6 +188,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
               ),
               TextFormField(
                 controller: _cadastrarUsuarioController.telefoneController,
+                readOnly: widget.readOnly,
                 keyboardType: TextInputType.phone,
                 inputFormatters: [phoneMask],
                 validator: (String? text){
@@ -201,141 +217,28 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                 ),
                 alignment: Alignment.centerLeft,
               ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.cepController,
-                keyboardType: TextInputType.text,
-                inputFormatters: [cepMask],
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }
-                },
-                decoration: const InputDecoration(
-                    labelText: "CEP",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.enderecoController,
-                keyboardType: TextInputType.text,
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }
-                },
-                decoration: const InputDecoration(
-                    labelText: "Endereço",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.cidadeController,
-                keyboardType: TextInputType.text,
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }
-                },
-                decoration: const InputDecoration(
-                    labelText: "Cidade",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.bairroController,
-                keyboardType: TextInputType.text,
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }
-                },
-                decoration: const InputDecoration(
-                    labelText: "Bairro",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.numeroController,
-                keyboardType: TextInputType.number,
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }
-                },
-                decoration: const InputDecoration(
-                    labelText: "Número",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              DropdownButtonFormField<String>(
-                value: dropdownText,
-                icon: const Icon(Icons.arrow_drop_down),
-                iconSize: 24,
-                elevation: 16,
-                style: const TextStyle(color: Colors.black),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownText = newValue!;
-                  });
-                },
-                items: _cadastrarUsuarioController.estados
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.referenciaController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                    labelText: "Ponto de referência (opcional)",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Container(
+              !widget.readOnly? CadastrarEndereco(_cadastrarUsuarioController) : ListarEndereco(widget.usuario),
+              !widget.readOnly ? Container(
                 height: 46,
                 child: ElevatedButton(
                   style: ButtonStyle(
                       shape: MaterialStateProperty.all(const StadiumBorder()),
-                      backgroundColor: MaterialStateProperty.all(Colors.cyanAccent.withOpacity(0.65))
-                  ),
+                      backgroundColor: MaterialStateProperty.all(
+                          Colors.cyanAccent.withOpacity(0.65))),
                   child: const Text(
                     "Cadastrar",
                     style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal
-                    ),
+                        fontSize: 17,
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal),
                   ),
-                  onPressed: (){
-                    _cadastrarUsuarioController.estado = dropdownText;
+                  onPressed: () {
                     _cadastrarUsuarioController.signUp(context);
                   },
                 ),
-              )
+              ) :
+                  Text("teste"),
+
             ],
           ),
           margin: const EdgeInsets.all(20),

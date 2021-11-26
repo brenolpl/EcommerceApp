@@ -86,6 +86,7 @@ class CadastrarUsuarioController {
       endereco.bairro = bairroController.text.trim();
       endereco.numero = numeroController.text.trim();
       endereco.referencia = referenciaController.text.trim();
+      endereco.cidade = cidadeController.text.trim();
       try{
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: usuario.email, password: usuario.senha);
         Future<DocumentReference> usersFuture = _usersCollection.add({
@@ -102,7 +103,8 @@ class CadastrarUsuarioController {
           'estado': endereco.estado,
           'bairro': endereco.bairro,
           'numero': endereco.numero,
-          'referencia': endereco.referencia
+          'referencia': endereco.referencia,
+          'cidade': endereco.cidade
         });
         Future.wait([usersFuture, enderecoFuture]).then((List<DocumentReference> value) {
           usuario.id = value[0].id;

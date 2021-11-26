@@ -83,7 +83,7 @@ class _LoginState extends State<Login> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(60),
                   onTap: (){
-                    push(context, CadastrarUsuario(_loginController));
+                    push(context, CadastrarUsuario("Cadastrar novo usuário", false));
                   },
                   child: const Text(
                     "SIGN UP",

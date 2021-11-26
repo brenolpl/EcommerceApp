@@ -1,4 +1,5 @@
 import 'package:appflutter/core/endereco.dart';
+import 'package:appflutter/core/endereco.dart';
 import 'package:appflutter/core/usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,12 @@ class CadastrarEnderecoController {
 
   Future cadastrarNovoEndereco(Usuario usuario) async {
     Endereco endereco = Endereco();
+    endereco = _setCamposEndereco(endereco);
+    endereco.usuario_id = usuario.id;
+    return FirebaseFirestore.instance.collection("endereco").add(endereco.toMap());
+  }
+
+  Endereco _setCamposEndereco(Endereco endereco){
     endereco.cep = cepController.text.trim();
     endereco.endereco = enderecoController.text.trim();
     endereco.estado = estado;
@@ -62,7 +69,11 @@ class CadastrarEnderecoController {
     endereco.numero = numeroController.text.trim();
     endereco.referencia = referenciaController.text.trim();
     endereco.cidade = cidadeController.text.trim();
-    endereco.usuario_id = usuario.id;
-    return FirebaseFirestore.instance.collection("endereco").add(endereco.toMap());
+    return endereco;
+  }
+
+  Future atualizarEndereco(Endereco endereco){
+    endereco = _setCamposEndereco(endereco);
+    return FirebaseFirestore.instance.collection("endereco").doc(endereco.id).update(endereco.toMap());
   }
 }

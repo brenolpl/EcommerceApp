@@ -14,6 +14,9 @@ class CadastrarEndereco extends StatefulWidget {
     }else{
       cadastrarEnderecoController = controller;
     }
+    if(!readOnly){
+      cadastrarEnderecoController.estado = cadastrarEnderecoController.estados.first;
+    }
   }
 
   @override

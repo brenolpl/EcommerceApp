@@ -32,6 +32,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
   final phoneMask = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r'[0-9]')});
   @override
   void initState() {
+    super.initState();
     _cadastrarUsuarioController = CadastrarUsuarioController();
     _cadastrarEnderecoController = CadastrarEnderecoController();
     if(widget.usuario != null) {
@@ -50,6 +51,9 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.appBarTitle, style: const TextStyle(fontWeight: FontWeight.normal)),
+        actions: [
+          widget.readOnly ? IconButton(icon: const Icon(Icons.refresh), onPressed: () {setState((){});}) : Container()
+        ],
       ),
       body: Form(
         key: _cadastrarUsuarioController.formKey,

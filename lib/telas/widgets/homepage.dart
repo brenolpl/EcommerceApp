@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("EcommerceApp"),
         actions: [
+          IconButton(icon: const Icon(Icons.refresh), onPressed: () {setState((){});}),
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {

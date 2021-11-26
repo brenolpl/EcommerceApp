@@ -1,3 +1,5 @@
+import 'package:appflutter/core/endereco.dart';
+import 'package:appflutter/core/usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +11,6 @@ class CadastrarEnderecoController {
   late final TextEditingController bairroController;
   late final TextEditingController referenciaController;
   late String estado;
-  CollectionReference get _enderecoCollection => FirebaseFirestore.instance.collection("endereco");
   final List<String> estados = [
     "Acre (AC)",
     "Alagoas (AL)",
@@ -46,5 +47,22 @@ class CadastrarEnderecoController {
     bairroController = TextEditingController();
     referenciaController = TextEditingController();
     cidadeController = TextEditingController();
+  }
+
+  static Future excluirEndereco(Endereco endereco) async {
+    return FirebaseFirestore.instance.collection("endereco").doc(endereco.id).delete();
+  }
+
+  Future cadastrarNovoEndereco(Usuario usuario) async {
+    Endereco endereco = Endereco();
+    endereco.cep = cepController.text.trim();
+    endereco.endereco = enderecoController.text.trim();
+    endereco.estado = estado;
+    endereco.bairro = bairroController.text.trim();
+    endereco.numero = numeroController.text.trim();
+    endereco.referencia = referenciaController.text.trim();
+    endereco.cidade = cidadeController.text.trim();
+    endereco.usuario_id = usuario.id;
+    return FirebaseFirestore.instance.collection("endereco").add(endereco.toMap());
   }
 }

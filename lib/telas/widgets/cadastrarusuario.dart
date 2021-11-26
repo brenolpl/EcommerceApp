@@ -3,9 +3,11 @@ import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/controller/cadastrarusuariocontroller.dart';
 import 'package:appflutter/telas/controller/logincontroller.dart';
+import 'package:appflutter/telas/widgets/novoendereco.dart';
 import 'package:appflutter/telas/widgets/cadastrarendereco.dart';
 import 'package:appflutter/telas/widgets/listarendereco.dart';
 import 'package:appflutter/util/businessexception.dart';
+import 'package:appflutter/util/nav.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -224,6 +226,17 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                 ),
                 alignment: Alignment.centerLeft,
               ),
+              widget.readOnly?
+                Align(
+                    child: IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: (){
+                          push(context, NovoEndereco(widget.usuario!));
+                        }
+                        ),
+                    alignment: Alignment.centerRight
+                )
+                  : Container(),
               !widget.readOnly? CadastrarEndereco(controller: _cadastrarEnderecoController) : ListarEndereco(widget.usuario),
               !widget.readOnly ? Container(
                 height: 46,

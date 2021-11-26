@@ -33,6 +33,9 @@ class Endereco {
     data['numero'] = numero;
     data['referencia'] = referencia;
     data['cidade'] = cidade;
+    if(usuario_id != null){
+      data['usuario_id'] = usuario_id;
+    }
     return data;
   }
 }

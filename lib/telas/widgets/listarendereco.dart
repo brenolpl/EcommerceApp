@@ -1,5 +1,6 @@
 import 'package:appflutter/core/endereco.dart';
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/controller/cadastrarusuariocontroller.dart';
 import 'package:appflutter/telas/widgets/cadastrarendereco.dart';
 import 'package:appflutter/telas/widgets/editarendereco.dart';
@@ -29,6 +30,7 @@ class _ListarEnderecoState extends State<ListarEndereco> {
     _enderecosFuture = _popularEnderecos();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Endereco>>(
@@ -48,18 +50,36 @@ class _ListarEnderecoState extends State<ListarEndereco> {
                 physics: const ClampingScrollPhysics(),
                 itemCount: enderecos.length,
                 itemBuilder: (context, index) {
-                  return ElevatedButton(
-                      onPressed: () {
-                        push(context, EditarEndereco(enderecos[index]));
-                      },
-                      child: EnderecoDetail(enderecos[index]),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.white70.withOpacity(0.75)),
-                        overlayColor: MaterialStateProperty.all(Colors.cyanAccent),
-                        shape: MaterialStateProperty.all(BeveledRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                        side: MaterialStateProperty.all(const BorderSide(width: 0.1, style: BorderStyle.solid)),
-                        shadowColor: MaterialStateProperty.all(Colors.black),
+                  return Row(
+                    children: [
+                      Container(
+                        width: 300,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              push(context, EditarEndereco(enderecos[index]));
+                            },
+                            child: EnderecoDetail(enderecos[index]),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.white70.withOpacity(0.75)),
+                              overlayColor: MaterialStateProperty.all(Colors.cyanAccent),
+                              shape: MaterialStateProperty.all(BeveledRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                              side: MaterialStateProperty.all(const BorderSide(width: 0.1, style: BorderStyle.solid)),
+                              shadowColor: MaterialStateProperty.all(Colors.black),
+                            )
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () async {
+                             await CadastrarEnderecoController.excluirEndereco(enderecos[index]).then((value) {
+                               setState((){});
+                             });
+                          },
+                          icon: const Icon(
+                              Icons.remove_circle,
+                              color: Colors.red,
+                              )
                       )
+                    ],
                   );
                 });
           }

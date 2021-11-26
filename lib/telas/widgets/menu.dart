@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/widgets/cadastrarusuario.dart';
-import 'package:appflutter/telas/widgets/editprofile.dart';
 import 'package:appflutter/telas/widgets/login.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';

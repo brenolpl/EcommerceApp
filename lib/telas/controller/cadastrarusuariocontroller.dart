@@ -51,7 +51,7 @@ class CadastrarUsuarioController {
       endereco.referencia = _cadastrarEnderecoController.referenciaController.text.trim();
       endereco.cidade = _cadastrarEnderecoController.cidadeController.text.trim();
       try{
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: usuario.email, password: senhaController.text.trim());
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: usuario.email, password: senhaController.text.trim());
         Future<DocumentReference> usersFuture = _usersCollection.add(usuario.toMap());
         Future<DocumentReference> enderecoFuture = _enderecoCollection.add(endereco.toMap());
         Future.wait([usersFuture, enderecoFuture]).then((List<DocumentReference> value) {

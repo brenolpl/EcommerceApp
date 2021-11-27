@@ -152,7 +152,7 @@ class _CadastrarEnderecoState extends State<CadastrarEndereco> {
         TextFormField(
           controller: widget.cadastrarEnderecoController.referenciaController,
           readOnly: widget.readOnly,
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.text,
           decoration: const InputDecoration(
               labelText: "Ponto de referência (opcional)",
               labelStyle: TextStyle(

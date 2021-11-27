@@ -21,7 +21,14 @@ class Produto {
     descricao = map['descricao'];
   }
 
-  static obterProdutos(){
-
+  Map<String, dynamic> toMap(){
+    final Map<String, dynamic> data = {};
+    data['imagePath'] = imagePath;
+    data['categoria'] = categoria;
+    data['preco_custo'] = preco_custo;
+    data['preco_compra'] = preco_compra;
+    data['descricao'] = descricao;
+    data['dataInclusao'] = dataInclusao;
+    return data;
   }
 }

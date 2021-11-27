@@ -1,6 +1,4 @@
 import 'package:appflutter/core/endereco.dart';
-import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/streams/enderecosbloc.dart';
 import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/widgets/cadastrarendereco.dart';
 import 'package:appflutter/util/nav.dart';
@@ -8,10 +6,8 @@ import 'package:flutter/material.dart';
 
 class EditarEndereco extends StatefulWidget {
   Endereco endereco;
-  EnderecosBloc _enderecosBloc;
-  Usuario usuario;
 
-  EditarEndereco(this.endereco, this._enderecosBloc, this.usuario, {Key? key}) : super(key: key);
+  EditarEndereco(this.endereco, {Key? key}) : super(key: key);
 
   @override
   _EditarEnderecoState createState() => _EditarEnderecoState();
@@ -52,7 +48,6 @@ class _EditarEnderecoState extends State<EditarEndereco> {
                     onPressed: () async {
                       if(formKey.currentState!.validate()){
                         _cadastrarEnderecoController.atualizarEndereco(widget.endereco).then((value) {
-                          widget._enderecosBloc.obterEnderecos(widget.usuario);
                           pop(context);
                         });
                       }

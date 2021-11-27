@@ -7,6 +7,7 @@ import 'package:appflutter/telas/widgets/menu.dart';
 import 'package:appflutter/telas/widgets/produto.dart';
 import 'package:appflutter/telas/widgets/produtodetail.dart';
 import 'package:appflutter/util/nav.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,6 +24,8 @@ class _HomePageState extends State<HomePage> {
   late HomePageController _homePageController;
   late CarrinhoController _carrinhoController;
   late List<Produto> produtos;
+
+  Stream<QuerySnapshot> get stream => FirebaseFirestore.instance.collection("produtos").snapshots();
 
   @override
   void initState() {
@@ -48,15 +51,17 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: FutureBuilder<List<Produto>>(
+      body: StreamBuilder<QuerySnapshot>(
+          stream: stream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Text("ERRO");
             }
+            if(!snapshot.hasData){
+              return const CircularProgressIndicator();
+            }
             if (snapshot.hasData) {
-              produtos = snapshot.data!;
-              print("PRODUTOS");
-              print(produtos);
+              _obterProdutos(snapshot.data!);
               return ListView.builder(
                   itemCount: produtos.length,
                   itemBuilder: (context, index) {
@@ -78,9 +83,13 @@ class _HomePageState extends State<HomePage> {
 
             return const Center(child: CircularProgressIndicator());
           },
-          future: produtosFuture
       ),
     );
+  }
+
+  _obterProdutos(QuerySnapshot data){
+    List<DocumentSnapshot> document_items = data.docs;
+    produtos = document_items.map((doc) => Produto.fromMap(doc)).toList();
   }
 
 /*

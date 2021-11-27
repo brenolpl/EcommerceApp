@@ -2,6 +2,7 @@ import 'package:appflutter/common/defaultbutton.dart';
 import 'package:appflutter/common/defaulteditfield.dart';
 import 'package:appflutter/core/produto.dart';
 import 'package:appflutter/telas/controller/carrinhocontroller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +12,7 @@ class ProdutoEdit extends StatelessWidget {
   //NumberFormat formatter = NumberFormat.simpleCurrency();
 
   ProdutoEdit(this.produto);
-
+  Stream<QuerySnapshot> get stream => FirebaseFirestore.instance.collection("produtos").snapshots();
 
 
   @override
@@ -29,60 +30,77 @@ class ProdutoEdit extends StatelessWidget {
             )
           ],
         ),
-        body:Form(
-        //key: ProdutoEdit(produto),
-          child: Container(
-          padding: const EdgeInsets.all(15),
-          child:
-          ListView(
-            children: [
+        body:StreamBuilder<QuerySnapshot>(
+          stream: stream,
+          builder: (context, snapshot) {
+            if(snapshot.hasError){
+              return Text("deu erro");
+            }
 
-              Text("PRODUTO - ID: " + produto.produtoId, style: const TextStyle(fontSize: 18)),
-              Image.asset(
-                  produto.imagePath,
-                  width: 160,
-                  height: 160,
-                  alignment: Alignment.center),
-                SizedBox(
-                    child: RaisedButton(
-                        child: Text("Editar Imagem"),
-                        onPressed: () {
-                          //_carrinhoController.listaProdutos.add(produto);
-                        },
-                    )
+            if(!snapshot.hasData){
+              return CircularProgressIndicator();
+            }
+
+            if(snapshot.hasData){
+              //_obterProduto(widget.produto)
+            }
+
+            return Form(
+            //key: ProdutoEdit(produto),
+              child: Container(
+              padding: const EdgeInsets.all(15),
+              child:
+              ListView(
+                children: [
+
+                  Text("PRODUTO - ID: " + produto.produtoId, style: const TextStyle(fontSize: 18)),
+                  Image.asset(
+                      produto.imagePath,
+                      width: 160,
+                      height: 160,
+                      alignment: Alignment.center),
+                    SizedBox(
+                        child: RaisedButton(
+                            child: Text("Editar Imagem"),
+                            onPressed: () {
+                              //_carrinhoController.listaProdutos.add(produto);
+                            },
+                        )
+                      ),
+                  TextFormField(
+                    initialValue: produto.nome,
+                    decoration: InputDecoration(labelText: 'Nome'),
                   ),
-              TextFormField(
-                initialValue: produto.nome,
-                decoration: InputDecoration(labelText: 'Nome'),
-              ),
-              TextFormField(
-                initialValue: produto.preco_custo.toString(),
-                decoration: InputDecoration(labelText: 'Valor de Compra'),
-              ),
-              TextFormField(
-                initialValue: produto.preco_compra.toString(),
-                decoration: InputDecoration(labelText: 'Valor de Venda'),
-              ),
-              MyStatefulWidget(),
-              TextFormField(
-                maxLines: 3,
-                maxLength: 130,
-                initialValue: produto.descricao,
-                decoration: InputDecoration(labelText: 'Descrição'),
-              ),
+                  TextFormField(
+                    initialValue: produto.preco_custo.toString(),
+                    decoration: InputDecoration(labelText: 'Valor de Compra'),
+                  ),
+                  TextFormField(
+                    initialValue: produto.preco_compra.toString(),
+                    decoration: InputDecoration(labelText: 'Valor de Venda'),
+                  ),
+                  MyStatefulWidget(),
+                  TextFormField(
+                    maxLines: 3,
+                    maxLength: 130,
+                    initialValue: produto.descricao,
+                    decoration: InputDecoration(labelText: 'Descrição'),
+                  ),
 
-              ElevatedButton(
-                child: Text("Salvar Alteração"),
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all(const StadiumBorder())
-                ),
-                onPressed: () {
-                  //_carrinhoController.listaProdutos.add(produto);
-                },
-              )
-            ],
-          ),
-        ),
+                  ElevatedButton(
+                    child: Text("Salvar Alteração"),
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all(const StadiumBorder())
+                    ),
+                    onPressed: () {
+                      //_carrinhoController.listaProdutos.add(produto);
+                    },
+                  )
+                ],
+              ),
+            ),
+            );
+          }
         ),
     );
   }

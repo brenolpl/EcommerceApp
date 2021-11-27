@@ -3,12 +3,11 @@ import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/streams/editarusuariobloc.dart';
 import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/controller/cadastrarusuariocontroller.dart';
-import 'package:appflutter/telas/controller/logincontroller.dart';
-import 'package:appflutter/telas/widgets/novoendereco.dart';
 import 'package:appflutter/telas/widgets/cadastrarendereco.dart';
 import 'package:appflutter/telas/widgets/listarendereco.dart';
 import 'package:appflutter/util/businessexception.dart';
 import 'package:appflutter/util/nav.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
   final maskCpf = MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
   final dateMask = MaskTextInputFormatter(mask: "##/##/####", filter: {"#": RegExp(r'[0-9]')});
   final phoneMask = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r'[0-9]')});
-  final EditarUsuarioBloc _editarUsuarioBloc = EditarUsuarioBloc();
+  Stream<QuerySnapshot> get stream => FirebaseFirestore.instance.collection("users").snapshots();
 
 
   @override
@@ -71,11 +70,11 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
       ),
       body: Form(
         key: _cadastrarUsuarioController.formKey,
-        child: StreamBuilder<Usuario>(
-          stream: _editarUsuarioBloc.stream,
+        child: StreamBuilder<QuerySnapshot>(
+          stream: stream,
           builder: (context, snapshot) {
             if(snapshot.hasData){
-              widget.usuario = snapshot.data;
+              _obterUsuario(snapshot.data!);
             }
 
             return Container(
@@ -266,11 +265,9 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                     ) :
                     ElevatedButton(
                       onPressed: (){
-                        _editarUsuarioBloc.atualizarUsuario(widget.usuario!, _cadastrarUsuarioController).then((usuario) {
-                          _editarUsuarioBloc.add(usuario);
-                          editandoUsuario = false;
-                          widget.readOnly = true;
-                        });
+                        _obterUsuario(snapshot.data!);
+                        editandoUsuario = false;
+                        widget.readOnly = true;
                         pop(context);
                       },
                       child: const Text(
@@ -292,9 +289,12 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _editarUsuarioBloc.dispose();
+  _obterUsuario(QuerySnapshot data) {
+    for(DocumentSnapshot doc in data.docs){
+      if(doc.id == widget.usuario!.id){
+        widget.usuario = Usuario.fromMap(doc);
+        break;
+      }
+    }
   }
 }

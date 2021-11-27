@@ -1,6 +1,6 @@
 import 'package:appflutter/core/produto_categoria.dart';
 import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/telas/widgets/cadastrarcategoria.dart';
+import 'package:appflutter/telas/widgets/produto_categoria/cadastrarcategoria.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

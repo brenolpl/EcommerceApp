@@ -1,5 +1,5 @@
 import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/telas/widgets/admlistaproduto.dart';
+import 'package:appflutter/telas/widgets/produtos/admlistaproduto.dart';
 import 'package:appflutter/telas/widgets/login.dart';
 import 'package:appflutter/telas/widgets/homepage.dart';
 import 'package:appflutter/util/nav.dart';

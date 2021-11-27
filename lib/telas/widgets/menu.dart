@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/telas/widgets/cadastrarusuario.dart';
-import 'package:appflutter/telas/widgets/listarcategorias.dart';
+import 'package:appflutter/telas/widgets/usuario/cadastrarusuario.dart';
+import 'package:appflutter/telas/widgets/produto_categoria/listarcategorias.dart';
 import 'package:appflutter/telas/widgets/login.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

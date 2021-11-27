@@ -1,9 +1,9 @@
 import 'package:appflutter/core/endereco.dart';
 import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
-import 'package:appflutter/telas/widgets/editarendereco.dart';
-import 'package:appflutter/telas/widgets/enderecodetail.dart';
-import 'package:appflutter/telas/widgets/novoendereco.dart';
+import 'package:appflutter/telas/widgets/enderecos/editarendereco.dart';
+import 'package:appflutter/telas/widgets/enderecos/enderecodetail.dart';
+import 'package:appflutter/telas/widgets/enderecos/novoendereco.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

@@ -3,14 +3,14 @@ import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/controller/homepagecontroller.dart';
 import 'package:appflutter/telas/widgets/carrinho.dart';
 import 'package:appflutter/telas/widgets/menu.dart';
-import 'package:appflutter/telas/widgets/produto.dart';
-import 'package:appflutter/telas/widgets/produtoEdit.dart';
-import 'package:appflutter/telas/widgets/produtodetail.dart';
+import 'package:appflutter/telas/widgets/produtos/produto.dart';
+import 'package:appflutter/telas/widgets/produtos/produtoedit.dart';
+import 'package:appflutter/telas/widgets/produtos/produtodetail.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'novoProduto.dart';
+import 'novoproduto.dart';
 
 class AdmListaProduto extends StatefulWidget {
   Usuario userAdmin;

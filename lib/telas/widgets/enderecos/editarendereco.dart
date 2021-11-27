@@ -1,6 +1,6 @@
 import 'package:appflutter/core/endereco.dart';
 import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
-import 'package:appflutter/telas/widgets/cadastrarendereco.dart';
+import 'package:appflutter/telas/widgets/enderecos/cadastrarendereco.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:flutter/material.dart';
 

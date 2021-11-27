@@ -1,9 +1,14 @@
 import 'package:appflutter/core/produto_categoria.dart';
+import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/widgets/cadastrarcategoria.dart';
+import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ListarCategorias extends StatefulWidget {
-  ListarCategorias({Key? key}) : super(key: key);
+  Usuario usuario;
+
+  ListarCategorias(this.usuario, {Key? key}) : super(key: key);
 
   @override
   _ListarCategoriasState createState() => _ListarCategoriasState();
@@ -19,6 +24,9 @@ class _ListarCategoriasState extends State<ListarCategorias> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Categorias"),
+        actions: [
+          widget.usuario.admin ? IconButton(icon: const Icon(Icons.add), onPressed: (){push(context, const CadastrarCategoria());}) : Container()
+        ],
       ),
 
       body: StreamBuilder<QuerySnapshot>(
@@ -38,13 +46,13 @@ class _ListarCategoriasState extends State<ListarCategorias> {
               itemCount: categorias.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(10),
                   height: 50,
                   child: ElevatedButton(
                       onPressed: () {
                         //push(context, ProdutoEdit(produtos[index]));
                       },
-                      child: Text(categorias[index].nome_categoria),
+                      child: Text(categorias[index].nome),
                       style:
                       ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.lightBlue),

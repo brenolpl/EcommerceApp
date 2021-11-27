@@ -108,12 +108,26 @@ class _AdmListaProduto extends State<AdmListaProduto> {
           ),
           Column(
             children: [
-              Text("Nome: ${produto.nome}"),
-              Text("Categoria: ${produto.categoria!.nome_categoria}"),
-              Text("Custo: ${produto.preco_custo}"),
-              Text("Venda: ${produto.preco_compra}"),
-
-              Text("\nLucro: ${(produto.preco_compra - produto.preco_custo).toStringAsFixed(2)}")
+              Text("Nome: ${produto.nome}",
+                style: const TextStyle(
+                    color: Colors.black
+                )),
+              Text("Categoria: ${produto.categoria!.nome}",
+                style: const TextStyle(
+                    color: Colors.black
+                ),),
+              Text("Custo: ${produto.preco_custo}",
+                style: const TextStyle(
+                    color: Colors.black
+                ),),
+              Text("Venda: ${produto.preco_compra}",
+                style: const TextStyle(
+                    color: Colors.black
+                ),),
+              Text("\nLucro: ${(produto.preco_compra - produto.preco_custo).toStringAsFixed(2)}",
+                style: const TextStyle(
+                    color: Colors.black
+                ),)
             ],
           ),
         ],

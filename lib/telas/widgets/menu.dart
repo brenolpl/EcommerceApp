@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/widgets/cadastrarusuario.dart';
-import 'package:appflutter/telas/widgets/listarprodutoporcategoria.dart';
+import 'package:appflutter/telas/widgets/listarcategorias.dart';
 import 'package:appflutter/telas/widgets/login.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -61,9 +61,8 @@ class _MenuState extends State<Menu> {
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () async {
                       pop(context);
-                      push(context, ListarCategorias());
-                    },
-                    enabled: !widget.usuario.admin,
+                      push(context, ListarCategorias(widget.usuario));
+                    }
 
                   ),
                   ListTile(

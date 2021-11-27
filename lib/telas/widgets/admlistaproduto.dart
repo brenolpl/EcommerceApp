@@ -10,6 +10,8 @@ import 'package:appflutter/util/nav.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'novoProduto.dart';
+
 class AdmListaProduto extends StatefulWidget {
   Usuario userAdmin;
   AdmListaProduto(this.userAdmin, {Key? key}) : super(key: key);
@@ -18,12 +20,11 @@ class AdmListaProduto extends StatefulWidget {
   _AdmListaProduto createState() => _AdmListaProduto();
 }
 
-
-
 class _AdmListaProduto extends State<AdmListaProduto> {
 
   late Future<List<Produto>> produtosFuture;
   late List<Produto> produtos;
+  late Produto produtonovo;
 
   @override
   void initState() {
@@ -42,18 +43,20 @@ class _AdmListaProduto extends State<AdmListaProduto> {
           IconButton(
               icon: const Icon(Icons.add),
               onPressed: (){
-                //Adicionar Produto
+                push(context, NovoProdutoWidget());
               }
           )
         ],
+
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          //Colocar para Adicionar Produto
+          push(context, NovoProdutoWidget());
         },),
 
-      body: FutureBuilder<List<Produto>>(
+      body:
+          FutureBuilder<List<Produto>>(
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Text("ERRO");
@@ -62,6 +65,7 @@ class _AdmListaProduto extends State<AdmListaProduto> {
               produtos = snapshot.data!;
               print("PRODUTOS");
               print(produtos);
+
               return ListView.builder(
                   itemCount: produtos.length,
                   itemBuilder: (context, index) {
@@ -69,7 +73,8 @@ class _AdmListaProduto extends State<AdmListaProduto> {
                         onPressed: () {
                           push(context, ProdutoEdit(produtos[index]));
                         },
-                        child: ProdutoWidget(produtos[index]),
+                        child: detalProducts(produtos[index]),
+
                         style:
                           ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(Colors.white70.withOpacity(0.75)),
@@ -79,7 +84,6 @@ class _AdmListaProduto extends State<AdmListaProduto> {
                             shadowColor: MaterialStateProperty.all(Colors.black),
 
                         )
-
                     );
                   });
             }
@@ -90,6 +94,34 @@ class _AdmListaProduto extends State<AdmListaProduto> {
       ),
     );
     }
+
+  @override
+  Widget detalProducts(Produto produto) {
+    return Container(
+      child: Row(
+        children: [
+
+          Column(
+            children: [
+              Image.asset(produto.imagePath, fit: BoxFit.contain, height: 160),
+            ],
+          ),
+          Column(
+            children: [
+              Text("Nome: ${produto.nome}"),
+              Text("Categoria: ${produto.categoria!.nome_categoria}"),
+              Text("Custo: ${produto.preco_custo}"),
+              Text("Venda: ${produto.preco_compra}"),
+
+              Text("\nLucro: ${(produto.preco_compra - produto.preco_custo).toStringAsFixed(2)}")
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+
   }
 
 

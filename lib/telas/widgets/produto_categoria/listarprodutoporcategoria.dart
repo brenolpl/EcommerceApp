@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class ListarProdutoPorCategoria extends StatefulWidget {
   ProdutoCategoria produtoCategoria;
-  CarrinhoController _carrinhoController;
+  final CarrinhoController _carrinhoController;
 
   ListarProdutoPorCategoria(this.produtoCategoria, this._carrinhoController, {Key? key}) : super(key: key);
 

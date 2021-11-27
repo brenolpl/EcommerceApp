@@ -121,8 +121,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _obterProdutos(QuerySnapshot data){
-    List<DocumentSnapshot> document_items = data.docs;
-    produtos = document_items.map((doc) => Produto.fromMap(doc)).toList();
+    produtos = data.docs.map((doc) => Produto.fromMap(doc)).toList();
   }
 
   _pesquisarProduto(String text) {

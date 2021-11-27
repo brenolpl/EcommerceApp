@@ -1,5 +1,4 @@
 import 'package:appflutter/core/endereco.dart';
-import 'package:appflutter/core/endereco.dart';
 import 'package:appflutter/core/usuario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

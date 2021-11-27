@@ -1,12 +1,10 @@
 
 import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/streams/editarusuariobloc.dart';
 import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/controller/cadastrarusuariocontroller.dart';
 import 'package:appflutter/telas/widgets/enderecos/cadastrarendereco.dart';
 import 'package:appflutter/telas/widgets/enderecos/listarendereco.dart';
 import 'package:appflutter/util/businessexception.dart';
-import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +18,7 @@ class CadastrarUsuario extends StatefulWidget {
   String appBarTitle;
   bool readOnly;
   Usuario? usuario;
-  CadastrarUsuario(this.appBarTitle, this.readOnly, {this.usuario = null});
+  CadastrarUsuario(this.appBarTitle, this.readOnly, {Key? key, this.usuario}) : super(key: key);
 
   @override
   _CadastrarUsuarioState createState() => _CadastrarUsuarioState();
@@ -73,7 +71,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
           stream: stream,
           builder: (context, snapshot) {
             if(!snapshot.hasData){
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             if(snapshot.hasData){
@@ -200,7 +198,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                           if(DateTime.now().isBefore(date)){
                             return "Data de nascimento inválida!";
                           }
-                        }on FormatException catch(ex){
+                        }on FormatException {
                           businessException("unexpected", context);
                         }
                       }else if(text!.isEmpty){
@@ -248,7 +246,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                     alignment: Alignment.centerLeft,
                   ): Container(),
                   !widget.readOnly && !editandoUsuario? CadastrarEndereco(controller: _cadastrarEnderecoController) : !editandoUsuario? ListarEndereco(widget.usuario!):Container(),
-                  !widget.readOnly ? Container(
+                  !widget.readOnly ? SizedBox(
                     height: 46,
                     child: !editandoUsuario? ElevatedButton(
                       style: ButtonStyle(

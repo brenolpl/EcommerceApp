@@ -1,5 +1,4 @@
 import 'package:appflutter/core/endereco.dart';
-import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:flutter/material.dart';
 
 class EnderecoDetail extends StatelessWidget {

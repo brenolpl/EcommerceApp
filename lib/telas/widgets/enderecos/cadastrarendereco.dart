@@ -8,7 +8,7 @@ class CadastrarEndereco extends StatefulWidget {
   bool readOnly;
   late CadastrarEnderecoController cadastrarEnderecoController;
 
-  CadastrarEndereco({controller, this.endereco, this.readOnly = false}){
+  CadastrarEndereco({Key? key, controller, this.endereco, this.readOnly = false}) : super(key: key){
     if(controller == null) {
       cadastrarEnderecoController = CadastrarEnderecoController();
     }else{

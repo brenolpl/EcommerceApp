@@ -41,7 +41,7 @@ class _EditarEnderecoState extends State<EditarEndereco> {
                 key: formKey,
                 child: CadastrarEndereco(controller: _cadastrarEnderecoController, endereco: widget.endereco, readOnly: readOnly),
               ),
-              !readOnly ? Container(
+              !readOnly ? SizedBox(
                 width: 350,
                 height: 45,
                 child: ElevatedButton(
@@ -61,7 +61,7 @@ class _EditarEnderecoState extends State<EditarEndereco> {
                     ),
                     style:
                     ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.green.withOpacity(0.90)),
+                      backgroundColor: MaterialStateProperty.all(Colors.black),
                       overlayColor: MaterialStateProperty.all(Colors.deepOrange),
                       shape: MaterialStateProperty.all(const StadiumBorder()),
                       side: MaterialStateProperty.all(const BorderSide(width: 0.2, style: BorderStyle.solid)),

@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'package:appflutter/telas/widgets/inicio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +33,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: primaryBlack,
-        // Define o tema para claro ou escuro
         brightness: Brightness.light,
-        // Define a cor de fundo padrão para Containers
         scaffoldBackgroundColor: Colors.white,
       ),
       home: FutureBuilder(
-        // Initialize FlutterFire:
           future: _initialization,
           builder: (context, snapshot) {
             // Check for errors

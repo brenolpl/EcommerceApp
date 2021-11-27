@@ -15,10 +15,13 @@ class NovoEndereco extends StatefulWidget {
 class _NovoEnderecoState extends State<NovoEndereco> {
   late CadastrarEnderecoController _cadastrarEnderecoController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
+    super.initState();
     _cadastrarEnderecoController = CadastrarEnderecoController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

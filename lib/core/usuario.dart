@@ -1,7 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'endereco.dart';
 
 class Usuario {
   late String id;
@@ -38,8 +35,4 @@ class Usuario {
     data['telefone'] = telefone;
     return data;
   }
-
-  // Future<Usuario> getFutureUser(){
-  //
-  // }
 }

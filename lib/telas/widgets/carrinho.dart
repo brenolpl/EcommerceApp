@@ -1,9 +1,6 @@
 import 'package:appflutter/telas/controller/carrinhocontroller.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
-import 'homepage.dart';
 import 'itemcarrinho.dart';
 
 class Carrinho extends StatefulWidget {

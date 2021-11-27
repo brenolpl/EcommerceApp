@@ -6,9 +6,9 @@ import 'package:intl/intl.dart';
 class ProdutoDetail extends StatelessWidget {
   Produto produto;
   NumberFormat formatter = NumberFormat.simpleCurrency();
-  CarrinhoController _carrinhoController;
+  final CarrinhoController _carrinhoController;
 
-  ProdutoDetail(this.produto, this._carrinhoController);
+  ProdutoDetail(this.produto, this._carrinhoController, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,10 @@ class ProdutoDetail extends StatelessWidget {
                       fontSize: 30,
                   ),
                 ),
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
           ),
           ElevatedButton(
-            child: Text("Comprar"),
+            child: const Text("Comprar"),
             style: ButtonStyle(
                 overlayColor: MaterialStateProperty.all(Colors.deepOrange),
               shape: MaterialStateProperty.all(const StadiumBorder())

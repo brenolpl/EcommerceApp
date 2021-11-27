@@ -64,7 +64,7 @@ class _ListarEnderecoState extends State<ListarEndereco> {
                             children: [
                               Row(
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     width: 300,
                                     child: ElevatedButton(
                                         onPressed: () {
@@ -99,7 +99,7 @@ class _ListarEnderecoState extends State<ListarEndereco> {
                 onRefresh: () => _obterEnderecos(snapshot.data!)
             );
           }
-          return Text("Something went wrong");
+          return const Text("Something went wrong");
         }
         );
   }

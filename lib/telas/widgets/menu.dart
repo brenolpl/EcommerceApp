@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:appflutter/core/usuario.dart';
 import 'package:appflutter/telas/controller/carrinhocontroller.dart';
 import 'package:appflutter/telas/widgets/usuario/cadastrarusuario.dart';
@@ -12,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class Menu extends StatefulWidget {
   Usuario usuario;
-  CarrinhoController _carrinhoController;
+  final CarrinhoController _carrinhoController;
 
   Menu(this.usuario, this._carrinhoController, {Key? key}) : super(key: key);
 

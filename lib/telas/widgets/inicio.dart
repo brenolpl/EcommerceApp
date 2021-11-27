@@ -7,7 +7,7 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  InicioController _inicioController = InicioController();
+  final InicioController _inicioController = InicioController();
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +17,20 @@ class _InicioState extends State<Inicio> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          //Image.asset("assets/icon/icone_aplicacao.png", fit: BoxFit.contain),
-          const Center(child: CircularProgressIndicator()),
+          Image.asset("assets/icon/fav-icon.png", fit: BoxFit.contain),
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.only(bottom: 100),
             child: const Text(
               "EcommerceApp",
               style: TextStyle(
-                fontSize: 20,
-                color: Colors.grey,
-                decoration: TextDecoration.none
+                  fontSize: 20,
+                  color: Colors.grey,
+                  decoration: TextDecoration.none
               ),
             ),
           ),
+          const Center(child: CircularProgressIndicator()),
         ],
       ),
     );

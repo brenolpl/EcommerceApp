@@ -15,6 +15,7 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
 
   @override
   void initState() {
+    super.initState();
     nome = TextEditingController();
   }
 

@@ -36,13 +36,7 @@ class CadastrarUsuarioController {
     if(formKey.currentState!.validate()){
       Endereco endereco = Endereco();
       Usuario usuario = Usuario();
-      usuario.admin = false;
-      usuario.email = emailController.text.trim();
-      usuario.nome = nomeController.text.trim();
-      usuario.cpf = cpfController.text.trim();
-      DateFormat formatter = DateFormat("dd/MM/yyyy");
-      usuario.dataNascimento = Timestamp.fromDate(formatter.parse(dataNascimentoController.text.trim()));
-      usuario.telefone = telefoneController.text.trim();
+      setCamposUsuario(usuario);
       endereco.cep = _cadastrarEnderecoController.cepController.text.trim();
       endereco.endereco = _cadastrarEnderecoController.enderecoController.text.trim();
       endereco.estado = _cadastrarEnderecoController.estado;
@@ -69,6 +63,17 @@ class CadastrarUsuarioController {
         }
       }
     }
+  }
+
+  setCamposUsuario(Usuario usuario){
+    usuario.admin = false;
+    usuario.email = emailController.text.trim();
+    usuario.nome = nomeController.text.trim();
+    usuario.cpf = cpfController.text.trim();
+    DateFormat formatter = DateFormat("dd/MM/yyyy");
+    usuario.dataNascimento = Timestamp.fromDate(formatter.parse(dataNascimentoController.text.trim()));
+    usuario.telefone = telefoneController.text.trim();
+    return usuario;
   }
 
   _gotoHomePage(Usuario usuario, BuildContext context){

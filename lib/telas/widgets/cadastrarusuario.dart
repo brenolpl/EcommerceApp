@@ -73,6 +73,10 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
         child: StreamBuilder<QuerySnapshot>(
           stream: stream,
           builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return CircularProgressIndicator();
+            }
+
             if(snapshot.hasData){
               _obterUsuario(snapshot.data!);
             }
@@ -265,10 +269,10 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                     ) :
                     ElevatedButton(
                       onPressed: (){
-                        _obterUsuario(snapshot.data!);
+                        _atualizarUsuario(snapshot.data!);
                         editandoUsuario = false;
                         widget.readOnly = true;
-                        pop(context);
+                        //pop(context);
                       },
                       child: const Text(
                         "Salvar"
@@ -296,5 +300,10 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
         break;
       }
     }
+  }
+
+  _atualizarUsuario(QuerySnapshot data) {
+    widget.usuario = _cadastrarUsuarioController.setCamposUsuario(widget.usuario!);
+    FirebaseFirestore.instance.collection("users").doc(widget.usuario!.id).update(widget.usuario!.toMap());
   }
 }

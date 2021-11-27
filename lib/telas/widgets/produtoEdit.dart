@@ -38,7 +38,7 @@ class ProdutoEdit extends StatelessWidget {
             }
 
             if(!snapshot.hasData){
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
 
             if(snapshot.hasData){

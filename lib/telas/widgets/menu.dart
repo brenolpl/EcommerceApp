@@ -33,7 +33,7 @@ class _MenuState extends State<Menu> {
           stream: stream,
           builder: (context, snapshot) {
             if(!snapshot.hasData){
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
 
             if(snapshot.hasError){
@@ -78,7 +78,7 @@ class _MenuState extends State<Menu> {
                 ],
               );
             }
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
         ),
       ),

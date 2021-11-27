@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
               return const Text("ERRO");
             }
             if(!snapshot.hasData){
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasData) {
               if(!search) _obterProdutos(snapshot.data!);

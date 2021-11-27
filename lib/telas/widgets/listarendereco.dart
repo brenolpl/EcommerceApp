@@ -33,7 +33,7 @@ class _ListarEnderecoState extends State<ListarEndereco> {
         stream: stream,
         builder: (context, snapshot) {
           if(!snapshot.hasData){
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
 
           if(snapshot.hasError){

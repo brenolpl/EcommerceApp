@@ -74,7 +74,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
           stream: stream,
           builder: (context, snapshot) {
             if(!snapshot.hasData){
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
 
             if(snapshot.hasData){

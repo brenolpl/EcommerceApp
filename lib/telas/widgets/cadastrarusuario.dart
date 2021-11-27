@@ -78,7 +78,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
             }
 
             if(snapshot.hasData){
-              _obterUsuario(snapshot.data!);
+              if(widget.usuario != null) _obterUsuario(snapshot.data!);
             }
 
             return Container(
@@ -305,5 +305,11 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
   _atualizarUsuario(QuerySnapshot data) {
     widget.usuario = _cadastrarUsuarioController.setCamposUsuario(widget.usuario!);
     FirebaseFirestore.instance.collection("users").doc(widget.usuario!.id).update(widget.usuario!.toMap());
+    for(DocumentSnapshot doc in data.docs){
+      if(doc.id == widget.usuario!.id){
+        widget.usuario = Usuario.fromMap(doc);
+        break;
+      }
+    }
   }
 }

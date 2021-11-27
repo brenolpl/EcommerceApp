@@ -253,6 +253,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                     height: 46,
                     child: !editandoUsuario? ElevatedButton(
                       style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(Colors.deepOrange),
                           shape: MaterialStateProperty.all(const StadiumBorder()),
                           backgroundColor: MaterialStateProperty.all(
                               Colors.cyanAccent.withOpacity(0.65))),
@@ -278,6 +279,7 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
                         "Salvar"
                       ),
                       style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(Colors.deepOrange),
                         shape: MaterialStateProperty.all(const StadiumBorder()),
                       ),
                     ),

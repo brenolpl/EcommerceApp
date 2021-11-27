@@ -36,6 +36,7 @@ class ProdutoDetail extends StatelessWidget {
           ElevatedButton(
             child: Text("Comprar"),
             style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.deepOrange),
               shape: MaterialStateProperty.all(const StadiumBorder())
             ),
             onPressed: () {

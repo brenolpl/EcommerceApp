@@ -62,7 +62,7 @@ class _EditarEnderecoState extends State<EditarEndereco> {
                     style:
                     ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.green.withOpacity(0.90)),
-                      overlayColor: MaterialStateProperty.all(Colors.cyanAccent),
+                      overlayColor: MaterialStateProperty.all(Colors.deepOrange),
                       shape: MaterialStateProperty.all(const StadiumBorder()),
                       side: MaterialStateProperty.all(const BorderSide(width: 0.2, style: BorderStyle.solid)),
                       shadowColor: MaterialStateProperty.all(Colors.black),

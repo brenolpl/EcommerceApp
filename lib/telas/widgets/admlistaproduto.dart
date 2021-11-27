@@ -78,7 +78,7 @@ class _AdmListaProduto extends State<AdmListaProduto> {
                         style:
                           ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(Colors.white70.withOpacity(0.75)),
-                            overlayColor: MaterialStateProperty.all(Colors.cyanAccent),
+                            overlayColor: MaterialStateProperty.all(Colors.deepOrange),
                             shape: MaterialStateProperty.all(BeveledRectangleBorder(borderRadius: BorderRadius.circular(5))),
                             side: MaterialStateProperty.all(const BorderSide(width: 0.1, style: BorderStyle.solid)),
                             shadowColor: MaterialStateProperty.all(Colors.black),

@@ -33,6 +33,7 @@ class DefaultButton extends StatelessWidget {
               ),
         focusNode: focusOutput,
         style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all(Colors.deepOrange),
             shape: MaterialStateProperty.all(const StadiumBorder())
         ),
       ),

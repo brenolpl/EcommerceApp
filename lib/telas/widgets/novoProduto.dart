@@ -73,6 +73,7 @@ class NovoProdutoWidget extends StatelessWidget{
               ElevatedButton(
                 child: Text("Salvar Alteração"),
                 style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(Colors.deepOrange),
                     shape: MaterialStateProperty.all(const StadiumBorder())
                 ),
                 onPressed: () {

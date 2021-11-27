@@ -43,6 +43,7 @@ class _NovoEnderecoState extends State<NovoEndereco> {
                 },
                 child: const Text("Novo Endereço"),
                 style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(Colors.deepOrange),
                     shape: MaterialStateProperty.all(const StadiumBorder())
                 ),
               )

@@ -1,9 +1,10 @@
 import 'package:appflutter/core/produto.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ProdutoWidget extends StatelessWidget {
   Produto produto;
-
+  NumberFormat formatter = NumberFormat.simpleCurrency();
   ProdutoWidget(this.produto);
 
   @override
@@ -18,9 +19,18 @@ class ProdutoWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              Text(produto.nome),
-              Text("${produto.preco_custo}"),
-              Text("Api do frete aqui")
+              Text(
+                  produto.nome,
+                  style: const TextStyle(
+                    color: Colors.black
+                  ),
+              ),
+              Text(
+                  "${formatter.format(produto.preco_compra)}",
+                  style: const TextStyle(
+                      color: Colors.black
+                  ),
+              )
             ],
           ),
         ],

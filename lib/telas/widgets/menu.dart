@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/controller/carrinhocontroller.dart';
 import 'package:appflutter/telas/widgets/usuario/cadastrarusuario.dart';
 import 'package:appflutter/telas/widgets/produto_categoria/listarcategorias.dart';
 import 'package:appflutter/telas/widgets/login.dart';
@@ -11,8 +12,9 @@ import 'package:flutter/material.dart';
 
 class Menu extends StatefulWidget {
   Usuario usuario;
+  CarrinhoController _carrinhoController;
 
-  Menu(this.usuario, {Key? key}) : super(key: key);
+  Menu(this.usuario, this._carrinhoController, {Key? key}) : super(key: key);
 
   @override
   _MenuState createState() => _MenuState();
@@ -61,7 +63,7 @@ class _MenuState extends State<Menu> {
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () async {
                       pop(context);
-                      push(context, ListarCategorias(widget.usuario));
+                      push(context, ListarCategorias(widget.usuario, widget._carrinhoController));
                     }
 
                   ),

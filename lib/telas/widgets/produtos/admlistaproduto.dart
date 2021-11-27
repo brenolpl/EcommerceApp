@@ -1,5 +1,6 @@
 import 'package:appflutter/core/produto.dart';
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/controller/carrinhocontroller.dart';
 import 'package:appflutter/telas/controller/homepagecontroller.dart';
 import 'package:appflutter/telas/widgets/carrinho.dart';
 import 'package:appflutter/telas/widgets/menu.dart';
@@ -36,7 +37,7 @@ class _AdmListaProduto extends State<AdmListaProduto> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      drawer: Menu(widget.userAdmin),
+      drawer: Menu(widget.userAdmin, CarrinhoController()),
       appBar: AppBar(
         title: const Text("Lista de Produtos"),
         actions: [

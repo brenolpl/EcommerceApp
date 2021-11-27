@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Menu(widget.usuario),
+      drawer: Menu(widget.usuario, _carrinhoController),
       appBar: AppBar(
         title: !search ? const Text("EcommerceApp") : TextField(
             style: const TextStyle(

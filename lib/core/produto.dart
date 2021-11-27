@@ -21,6 +21,9 @@ class Produto {
     descricao = map['descricao'];
   }
 
+
+  Produto();
+
   static obterProdutos(){
 
   }

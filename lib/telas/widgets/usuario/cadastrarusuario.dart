@@ -64,7 +64,6 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
       appBar: AppBar(
         title: Text(widget.appBarTitle, style: const TextStyle(fontWeight: FontWeight.normal)),
         actions: [
-          widget.readOnly ? IconButton(icon: const Icon(Icons.refresh), onPressed: () {setState((){});}) : Container(),
           widget.readOnly ? IconButton(icon: const Icon(Icons.edit), onPressed: (){setState((){widget.readOnly = false; editandoUsuario = true;});}) : Container()
         ],
       ),

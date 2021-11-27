@@ -76,7 +76,6 @@ class _HomePageState extends State<HomePage> {
                 setState((){});
             },
           ),
-          !search?IconButton(icon: const Icon(Icons.refresh), onPressed: () {setState((){});}): Container(),
           !search?IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {

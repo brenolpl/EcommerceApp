@@ -21,6 +21,8 @@ class Produto {
     descricao = map['descricao'];
   }
 
+  Produto();
+
   Map<String, dynamic> toMap(){
     final Map<String, dynamic> data = {};
     data['imagePath'] = imagePath;

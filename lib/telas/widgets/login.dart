@@ -90,7 +90,7 @@ class _LoginState extends State<Login> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.cyan,
+                      color: Colors.deepOrange,
                     )
                   ),
                 ),

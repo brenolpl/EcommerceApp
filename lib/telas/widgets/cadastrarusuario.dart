@@ -1,5 +1,6 @@
 
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/streams/editarusuariobloc.dart';
 import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/controller/cadastrarusuariocontroller.dart';
 import 'package:appflutter/telas/controller/logincontroller.dart';
@@ -27,11 +28,16 @@ class CadastrarUsuario extends StatefulWidget {
 }
 
 class _CadastrarUsuarioState extends State<CadastrarUsuario> {
+  bool hideSenha = false;
+  bool editandoUsuario = false;
   late CadastrarUsuarioController _cadastrarUsuarioController;
   late CadastrarEnderecoController _cadastrarEnderecoController;
   final maskCpf = MaskTextInputFormatter(mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')});
   final dateMask = MaskTextInputFormatter(mask: "##/##/####", filter: {"#": RegExp(r'[0-9]')});
   final phoneMask = MaskTextInputFormatter(mask: "(##) #####-####", filter: {"#": RegExp(r'[0-9]')});
+  final EditarUsuarioBloc _editarUsuarioBloc = EditarUsuarioBloc();
+
+
   @override
   void initState() {
     super.initState();
@@ -47,223 +53,248 @@ class _CadastrarUsuarioState extends State<CadastrarUsuario> {
       _cadastrarUsuarioController.dataNascimentoController.value = TextEditingValue(text: date);
     _cadastrarUsuarioController.telefoneController.value = TextEditingValue(text: widget.usuario!.telefone);
     }
+    if(widget.readOnly){
+      hideSenha = true;
+    }
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.appBarTitle, style: const TextStyle(fontWeight: FontWeight.normal)),
         actions: [
-          widget.readOnly ? IconButton(icon: const Icon(Icons.refresh), onPressed: () {setState((){});}) : Container()
+          widget.readOnly ? IconButton(icon: const Icon(Icons.refresh), onPressed: () {setState((){});}) : Container(),
+          widget.readOnly ? IconButton(icon: const Icon(Icons.edit), onPressed: (){setState((){widget.readOnly = false; editandoUsuario = true;});}) : Container()
         ],
       ),
       body: Form(
         key: _cadastrarUsuarioController.formKey,
-        child: Container(
-          child: ListView(
-            children: [
-              const SizedBox(
-                height: 15,
-              ),
-              const Align(
-               child: Text(
-                 "Informações da conta",
-                 textAlign: TextAlign.left,
-               style: TextStyle(
-                 fontSize: 17
-                    )
-               ),
-                alignment: Alignment.centerLeft,
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.emailController,
-                keyboardType: TextInputType.emailAddress,
-                readOnly: widget.readOnly,
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }else if(!EmailValidator.validate(text)){
-                    return "Digite um email válido!";
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                    labelText: "Email",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              !widget.readOnly ? TextFormField(
-                obscureText: true,
-                readOnly: widget.readOnly,
-                decoration: const InputDecoration(
-                    labelText: "Senha",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-                controller: _cadastrarUsuarioController.senhaController,
-                validator: (String? text){
-                    if(text!.isEmpty){
-                      return "O campo $text é obrigatório";
-                    }else if(!text.contains(RegExp("[A-Z0-9]"))) {
-                      return "Sua senha precisa conter ao menos uma letra e um número";
-                    }else if(text.length<8){
-                      return "Sua senha precisa conter 8 ou mais caracteres";
-                    }
-                    return null;
-                },
-              ): Container(),
-              const SizedBox(
-                height: 25,
-              ),
-              const Align(
-                child: Text(
-                    "Dados Pessoais",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontSize: 17
-                    )
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.nomeController,
-                readOnly: widget.readOnly,
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }
-                },
-                decoration: const InputDecoration(
-                    labelText: "Nome completo",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.cpfController,
-                readOnly: widget.readOnly,
-                inputFormatters: [maskCpf],
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }else if(!CPFValidator.isValid(text)){
-                    return "CPF Inválido!";
-                  }
+        child: StreamBuilder<Usuario>(
+          stream: _editarUsuarioBloc.stream,
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+              widget.usuario = snapshot.data;
+            }
 
-                },
-                decoration: const InputDecoration(
-                    labelText: "CPF",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.dataNascimentoController,
-                readOnly: widget.readOnly,
-                inputFormatters: [dateMask],
-                validator: (String? text){
-                  if(text != null && text.isNotEmpty){
-                    try{
-                      initializeDateFormatting("pt_BR", null);
-                      var format = DateFormat('dd/MM/yyyy');
-                      DateTime date = format.parse(text);
-                      if(DateTime.now().isBefore(date)){
-                        return "Data de nascimento inválida!";
-                      }
-                    }on FormatException catch(ex){
-                        businessException("unexpected", context);
-                    }
-                  }else if(text!.isEmpty){
-                      return "O Campo $text é obrigatório!";
-                  }
-                },
-                keyboardType: TextInputType.datetime,
-                decoration: const InputDecoration(
-                    labelText: "Data de Nascimento",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              TextFormField(
-                controller: _cadastrarUsuarioController.telefoneController,
-                readOnly: widget.readOnly,
-                keyboardType: TextInputType.phone,
-                inputFormatters: [phoneMask],
-                validator: (String? text){
-                  if(text!.isEmpty){
-                    return "O Campo $text é obrigatório!";
-                  }
-                },
-                decoration: const InputDecoration(
-                    labelText: "Telefone de contato",
-                    labelStyle: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    )
-                ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              const Align(
-                child: Text(
-                    "Endereço",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontSize: 17
-                    )
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              widget.readOnly?
-                Align(
-                    child: IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: (){
-                          push(context, NovoEndereco(widget.usuario!));
-                        }
-                        ),
-                    alignment: Alignment.centerRight
-                )
-                  : Container(),
-              !widget.readOnly? CadastrarEndereco(controller: _cadastrarEnderecoController) : ListarEndereco(widget.usuario),
-              !widget.readOnly ? Container(
-                height: 46,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all(const StadiumBorder()),
-                      backgroundColor: MaterialStateProperty.all(
-                          Colors.cyanAccent.withOpacity(0.65))),
-                  child: const Text(
-                    "Cadastrar",
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal),
+            return Container(
+              margin: const EdgeInsets.all(20),
+              child: ListView(
+                children: [
+                  const SizedBox(
+                    height: 15,
                   ),
-                  onPressed: () {
-                    _cadastrarUsuarioController.signUp(context, _cadastrarEnderecoController);
-                  },
-                ),
-              ) :
-                  Text("teste"),
+                  const Align(
+                    child: Text(
+                        "Informações da conta",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 17
+                        )
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  TextFormField(
+                    controller: _cadastrarUsuarioController.emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    readOnly: hideSenha,
+                    validator: (String? text){
+                      if(text!.isEmpty){
+                        return "O Campo $text é obrigatório!";
+                      }else if(!EmailValidator.validate(text)){
+                        return "Digite um email válido!";
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                        labelText: "Email",
+                        labelStyle: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        )
+                    ),
+                  ),
+                  !hideSenha ? TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                        labelText: "Senha",
+                        labelStyle: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        )
+                    ),
+                    controller: _cadastrarUsuarioController.senhaController,
+                    validator: (String? text){
+                      if(text!.isEmpty){
+                        return "O campo $text é obrigatório";
+                      }else if(!text.contains(RegExp("[A-Z0-9]"))) {
+                        return "Sua senha precisa conter ao menos uma letra e um número";
+                      }else if(text.length<8){
+                        return "Sua senha precisa conter 8 ou mais caracteres";
+                      }
+                      return null;
+                    },
+                  ): Container(),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const Align(
+                    child: Text(
+                        "Dados Pessoais",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 17
+                        )
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  TextFormField(
+                    controller: _cadastrarUsuarioController.nomeController,
+                    readOnly: widget.readOnly,
+                    validator: (String? text){
+                      if(text!.isEmpty){
+                        return "O Campo $text é obrigatório!";
+                      }
+                    },
+                    decoration: const InputDecoration(
+                        labelText: "Nome completo",
+                        labelStyle: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        )
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _cadastrarUsuarioController.cpfController,
+                    readOnly: widget.readOnly,
+                    inputFormatters: [maskCpf],
+                    validator: (String? text){
+                      if(text!.isEmpty){
+                        return "O Campo $text é obrigatório!";
+                      }else if(!CPFValidator.isValid(text)){
+                        return "CPF Inválido!";
+                      }
 
-            ],
-          ),
-          margin: const EdgeInsets.all(20),
+                    },
+                    decoration: const InputDecoration(
+                        labelText: "CPF",
+                        labelStyle: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        )
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _cadastrarUsuarioController.dataNascimentoController,
+                    readOnly: widget.readOnly,
+                    inputFormatters: [dateMask],
+                    validator: (String? text){
+                      if(text != null && text.isNotEmpty){
+                        try{
+                          initializeDateFormatting("pt_BR", null);
+                          var format = DateFormat('dd/MM/yyyy');
+                          DateTime date = format.parse(text);
+                          if(DateTime.now().isBefore(date)){
+                            return "Data de nascimento inválida!";
+                          }
+                        }on FormatException catch(ex){
+                          businessException("unexpected", context);
+                        }
+                      }else if(text!.isEmpty){
+                        return "O Campo $text é obrigatório!";
+                      }
+                    },
+                    keyboardType: TextInputType.datetime,
+                    decoration: const InputDecoration(
+                        labelText: "Data de Nascimento",
+                        labelStyle: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        )
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _cadastrarUsuarioController.telefoneController,
+                    readOnly: widget.readOnly,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [phoneMask],
+                    validator: (String? text){
+                      if(text!.isEmpty){
+                        return "O Campo $text é obrigatório!";
+                      }
+                    },
+                    decoration: const InputDecoration(
+                        labelText: "Telefone de contato",
+                        labelStyle: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        )
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  !editandoUsuario? const Align(
+                    child: Text(
+                        "Endereço",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 17
+                        )
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ): Container(),
+                  !widget.readOnly && !editandoUsuario? CadastrarEndereco(controller: _cadastrarEnderecoController) : !editandoUsuario? ListarEndereco(widget.usuario!):Container(),
+                  !widget.readOnly ? Container(
+                    height: 46,
+                    child: !editandoUsuario? ElevatedButton(
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all(const StadiumBorder()),
+                          backgroundColor: MaterialStateProperty.all(
+                              Colors.cyanAccent.withOpacity(0.65))),
+                      child: const Text(
+                        "Cadastrar",
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                      onPressed: () {
+                        _cadastrarUsuarioController.signUp(context, _cadastrarEnderecoController);
+                      },
+                    ) :
+                    ElevatedButton(
+                      onPressed: (){
+                        _editarUsuarioBloc.atualizarUsuario(widget.usuario!, _cadastrarUsuarioController).then((usuario) {
+                          _editarUsuarioBloc.add(usuario);
+                          editandoUsuario = false;
+                          widget.readOnly = true;
+                        });
+                        pop(context);
+                      },
+                      child: const Text(
+                        "Salvar"
+                      ),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(const StadiumBorder()),
+                      ),
+                    ),
+                  ) :
+                  Container(),
+
+                ],
+              ),
+            );
+          }
         ),
       )
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _editarUsuarioBloc.dispose();
   }
 }

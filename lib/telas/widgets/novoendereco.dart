@@ -1,4 +1,5 @@
 import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/streams/enderecosbloc.dart';
 import 'package:appflutter/telas/controller/cadastrarenderecocontroller.dart';
 import 'package:appflutter/telas/widgets/cadastrarendereco.dart';
 import 'package:appflutter/util/nav.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 
 class NovoEndereco extends StatefulWidget {
   Usuario usuario;
-  NovoEndereco(this.usuario, {Key? key}) : super(key: key);
+  EnderecosBloc _enderecosBloc;
+  NovoEndereco(this.usuario, this._enderecosBloc, {Key? key}) : super(key: key);
 
   @override
   _NovoEnderecoState createState() => _NovoEnderecoState();
@@ -36,10 +38,16 @@ class _NovoEnderecoState extends State<NovoEndereco> {
                 onPressed: (){
                   if(formKey.currentState!.validate()) {
                     _cadastrarEnderecoController.cadastrarNovoEndereco(
-                        widget.usuario).then((value) => pop(context));
+                        widget.usuario).then((value) {
+                          widget._enderecosBloc.obterEnderecos(widget.usuario);
+                          pop(context);
+                    });
                   }
                 },
-                child: Text("salvar"),
+                child: const Text("Novo Endereço"),
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all(const StadiumBorder())
+                ),
               )
             ],
           ),

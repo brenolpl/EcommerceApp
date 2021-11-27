@@ -9,7 +9,7 @@ class Endereco {
   late String bairro;
   late String cidade;
   late String estado;
-  late String? usuario_id;
+  String usuario_id = "";
 
   Endereco();
 
@@ -22,6 +22,9 @@ class Endereco {
     bairro = map['bairro'];
     cidade = map['cidade'];
     estado = map['estado'];
+    if(map.data().containsKey("usuario_id")){
+      usuario_id = map['usuario_id'];
+    }
   }
 
   Map<String, dynamic> toMap(){
@@ -33,7 +36,7 @@ class Endereco {
     data['numero'] = numero;
     data['referencia'] = referencia;
     data['cidade'] = cidade;
-    if(usuario_id != null){
+    if(usuario_id != ""){
       data['usuario_id'] = usuario_id;
     }
     return data;

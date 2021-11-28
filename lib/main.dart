@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:appflutter/telas/widgets/inicio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

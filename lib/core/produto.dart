@@ -5,7 +5,6 @@ class Produto {
   late String produtoId;
   late String nome;
   late String imagePath;
-  late Timestamp dataInclusao;
   late ProdutoCategoria? categoria;
   late double preco_custo;
   late double preco_compra;
@@ -15,10 +14,10 @@ class Produto {
     produtoId = map.id;
     imagePath = map['imagePath'];
     nome = map['nome'];
-    dataInclusao = map['dataInclusao'];
     preco_custo = map['preco_custo'];
     preco_compra = map['preco_compra'];
     descricao = map['descricao'];
+    //categoria = map['categoria'];
   }
 
   Produto();
@@ -30,7 +29,6 @@ class Produto {
     data['preco_custo'] = preco_custo;
     data['preco_compra'] = preco_compra;
     data['descricao'] = descricao;
-    data['dataInclusao'] = dataInclusao;
     return data;
   }
 }

@@ -55,7 +55,7 @@ class _ListarCategoriasState extends State<ListarCategorias> {
                       onPressed: () {
                         push(context, ListarProdutoPorCategoria(categorias[index], widget._carrinhoController));
                       },
-                      child: Text(categorias[index].nome),
+                      child: Text(categorias[index].nome, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal)),
                       style:
                       ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.lightBlue),

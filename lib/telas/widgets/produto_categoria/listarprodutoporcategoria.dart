@@ -70,8 +70,7 @@ class _ListarProdutoPorCategoriaState extends State<ListarProdutoPorCategoria> {
 
   _listarProdutos(QuerySnapshot data) {
     for(DocumentSnapshot doc in data.docs){
-      DocumentReference docRef = doc["categoria_id"];
-      if(docRef.id == widget.produtoCategoria.id){
+      if(doc['categoria_id'] == widget.produtoCategoria.id){
         produtos.add(Produto.fromMap(doc));
       }
     }

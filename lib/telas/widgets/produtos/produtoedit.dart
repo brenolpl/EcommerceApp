@@ -1,100 +1,148 @@
-import 'package:appflutter/common/defaultbutton.dart';
-import 'package:appflutter/common/defaulteditfield.dart';
 import 'package:appflutter/core/produto.dart';
-import 'package:appflutter/telas/controller/carrinhocontroller.dart';
+import 'package:appflutter/core/produto_categoria.dart';
+import 'package:appflutter/telas/controller/cadastrarprodutocontroller.dart';
+import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class ProdutoEdit extends StatelessWidget {
+class ProdutoEdit extends StatefulWidget {
   Produto produto;
-  //NumberFormat formatter = NumberFormat.simpleCurrency();
 
   ProdutoEdit(this.produto);
-  Stream<QuerySnapshot> get stream => FirebaseFirestore.instance.collection("produtos").snapshots();
+
+  @override
+  State<ProdutoEdit> createState() => _ProdutoEditState();
+}
+
+class _ProdutoEditState extends State<ProdutoEdit> {
+  Stream<QuerySnapshot> get streamProduto => FirebaseFirestore.instance.collection("produtos").snapshots();
+  Stream<QuerySnapshot> get streamCategorias => FirebaseFirestore.instance.collection("produtos_categoria").snapshots();
+  late final CadastrarProdutoController _cadastrarProdutoController;
+
+  bool hasLoaded = false;
+  List<ProdutoCategoria> categorias = [];
+  late ProdutoCategoria dropdownValue;
 
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    _cadastrarProdutoController = CadastrarProdutoController();
+    _cadastrarProdutoController.nomeController.value = TextEditingValue(text: widget.produto.nome);
+    _cadastrarProdutoController.precoCustoController.value = TextEditingValue(text: widget.produto.preco_custo.toString());
+    _cadastrarProdutoController.precoCompraController.value = TextEditingValue(text: widget.produto.preco_compra.toString());
+    _cadastrarProdutoController.descricaoController.value = TextEditingValue(text: widget.produto.descricao);
+    _cadastrarProdutoController.imagePathController.value = TextEditingValue(text: widget.produto.imagePath);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text("Editar Produto"),
           actions: [
             IconButton(
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 onPressed: (){
-                  //Realizar exclusão do produto
+                  _excluirProduto();
+                  pop(context);
                 }
             )
           ],
         ),
-        body:StreamBuilder<QuerySnapshot>(
-          stream: stream,
+        body: StreamBuilder<QuerySnapshot>(
+          stream: streamProduto,
           builder: (context, snapshot) {
             if(snapshot.hasError){
-              return Text("deu erro");
+              return const Text("deu erro");
             }
 
             if(!snapshot.hasData){
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
-            if(snapshot.hasData){
-              //_obterProduto(widget.produto)
-            }
+            _obterProduto(snapshot.data!);
 
             return Form(
-            //key: ProdutoEdit(produto),
+              key: _cadastrarProdutoController.formKey,
               child: Container(
               padding: const EdgeInsets.all(15),
               child:
               ListView(
                 children: [
 
-                  Text("PRODUTO - ID: " + produto.produtoId, style: const TextStyle(fontSize: 18)),
+                  Text("PRODUTO - ID: " + widget.produto.id, style: const TextStyle(fontSize: 18)),
                   Image.asset(
-                      produto.imagePath,
+                      widget.produto.imagePath,
                       width: 160,
                       height: 160,
                       alignment: Alignment.center),
-                    SizedBox(
-                        child: RaisedButton(
-                            child: Text("Editar Imagem"),
-                            onPressed: () {
-                              //_carrinhoController.listaProdutos.add(produto);
-                            },
-                        )
-                      ),
                   TextFormField(
-                    initialValue: produto.nome,
-                    decoration: InputDecoration(labelText: 'Nome'),
+                    controller: _cadastrarProdutoController.imagePathController,
+                    decoration: const InputDecoration(labelText: 'Caminho da imagem'),
                   ),
                   TextFormField(
-                    initialValue: produto.preco_custo.toString(),
-                    decoration: InputDecoration(labelText: 'Valor de Compra'),
+                    controller: _cadastrarProdutoController.nomeController,
+                    decoration: const InputDecoration(labelText: 'Nome'),
                   ),
                   TextFormField(
-                    initialValue: produto.preco_compra.toString(),
-                    decoration: InputDecoration(labelText: 'Valor de Venda'),
+                    controller: _cadastrarProdutoController.precoCustoController,
+                    decoration: const InputDecoration(labelText: 'Valor de Compra'),
                   ),
-                  MyStatefulWidget(),
                   TextFormField(
+                    controller: _cadastrarProdutoController.precoCompraController,
+                    decoration: const InputDecoration(labelText: 'Valor de Venda'),
+                  ),
+                  StreamBuilder<QuerySnapshot>(
+                    stream: streamCategorias,
+                    builder: (context, snapshot){
+                      if(snapshot.hasError){
+                        return const Text("error");
+                      }
+
+                      if(!snapshot.hasData){
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      _obterCategorias(snapshot.data!);
+
+                      return DropdownButtonFormField<ProdutoCategoria>(
+                        value: dropdownValue,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: const TextStyle(color: Colors.black),
+                        onChanged: (ProdutoCategoria? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                            _cadastrarProdutoController.categoriaController = dropdownValue;
+                          });
+                        },
+                        items: categorias
+                            .map<DropdownMenuItem<ProdutoCategoria>>((ProdutoCategoria value) {
+                          return DropdownMenuItem<ProdutoCategoria>(
+                            value: value,
+                            child: Text(value.nome),
+                          );
+                        }).toList(),
+                      );
+                    }
+                  ),
+                  TextFormField(
+                    controller: _cadastrarProdutoController.descricaoController,
                     maxLines: 3,
                     maxLength: 130,
-                    initialValue: produto.descricao,
-                    decoration: InputDecoration(labelText: 'Descrição'),
+                    decoration: const InputDecoration(labelText: 'Descrição'),
                   ),
 
                   ElevatedButton(
-                    child: Text("Salvar Alteração"),
+                    child: const Text("Salvar Alteração"),
                     style: ButtonStyle(
                         overlayColor: MaterialStateProperty.all(Colors.deepOrange),
                         shape: MaterialStateProperty.all(const StadiumBorder())
                     ),
                     onPressed: () {
-                      //_carrinhoController.listaProdutos.add(produto);
+                      _atualizarProduto(widget.produto);
                     },
                   )
                 ],
@@ -105,44 +153,39 @@ class ProdutoEdit extends StatelessWidget {
         ),
     );
   }
-}
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+  void _obterProduto(QuerySnapshot data){
+    for(DocumentSnapshot doc in data.docs){
+      if(doc.id == widget.produto.id){
+        widget.produto = Produto.fromMap(doc);
+      }
+    }
+  }
 
-  @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
-}
+  void _obterCategorias(QuerySnapshot data) {
+    categorias = data.docs.map((doc) => ProdutoCategoria.fromMap(doc)).toList();
+    if(!hasLoaded){
+      hasLoaded = true;
+      for(ProdutoCategoria categoria in categorias){
+        if(categoria.id == widget.produto.categoria_id){
+          dropdownValue = categoria;
+          _cadastrarProdutoController.categoriaController = dropdownValue;
+        }
+      }
 
-/// This is the private State class that goes with MyStatefulWidget.
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  String dropdownValue = 'Seleciona Categoria';
+    }
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
+  atualizarProduto(Produto produto){
 
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_drop_down_sharp),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
-      },
-      items: <String>['Seleciona Categoria', 'Categoria1', 'Categoria2', 'Categoria3','Categoria4']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
+  }
+
+  void _excluirProduto() async {
+    await _cadastrarProdutoController.produtoCollection.doc(widget.produto.id).delete();
+  }
+
+  void _atualizarProduto(Produto produto) async {
+    produto = _cadastrarProdutoController.setCamposProduto(produto);
+    await _cadastrarProdutoController.produtoCollection.doc(widget.produto.id).update(produto.toMap());
   }
 }

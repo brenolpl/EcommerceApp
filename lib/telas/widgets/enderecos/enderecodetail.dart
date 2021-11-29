@@ -10,67 +10,56 @@ class EnderecoDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      child: Column(
+      child: Flex(
+        direction: Axis.horizontal,
         children: [
-          Row(
-            children: [
-              Text(
-                endereco.cep,
-                style: const TextStyle(
-                  color: Colors.black
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                endereco.endereco,
-                style: const TextStyle(
-                    color: Colors.black
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                endereco.numero,
-                style: const TextStyle(
-                    color: Colors.black
-                ),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                endereco.bairro,
-                style: const TextStyle(
-                    color: Colors.black
-                ),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                endereco.cidade,
-                style: const TextStyle(
-                    color: Colors.black
-                ),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                endereco.estado,
-                style: const TextStyle(
-                    color: Colors.black
-                ),
-              )
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                    Text(
+                      endereco.cep,
+                      style: const TextStyle(
+                          color: Colors.black
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      endereco.endereco,
+                      style: const TextStyle(
+                          color: Colors.black
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      endereco.numero,
+                      style: const TextStyle(
+                          color: Colors.black
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      endereco.bairro,
+                      style: const TextStyle(
+                          color: Colors.black
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      endereco.cidade,
+                      style: const TextStyle(
+                          color: Colors.black
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      endereco.estado,
+                      style: const TextStyle(
+                          color: Colors.black
+                      ),
+                    )
+              ],
+            ),
           )
         ],
       )

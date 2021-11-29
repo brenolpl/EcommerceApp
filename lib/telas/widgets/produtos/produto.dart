@@ -9,28 +9,40 @@ class ProdutoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Flex(
+      direction: Axis.horizontal,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Column(
-          children: [
-            Image.asset(produto.imagePath, fit: BoxFit.contain, width: 220),
-          ],
+        Expanded(
+          flex: 4,
+          child: Column(
+            children: [
+              Image.asset(produto.imagePath, fit: BoxFit.contain, width: 220),
+            ],
+          ),
         ),
-        Column(
-          children: [
-            Text(
-                produto.nome,
-                style: const TextStyle(
-                  color: Colors.black
-                ),
-            ),
-            Text(
-                formatter.format(produto.preco_compra).toString(),
-                style: const TextStyle(
+        Expanded(
+          flex: 6,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                  produto.nome,
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
                     color: Colors.black
-                ),
-            )
-          ],
+                  ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                  formatter.format(produto.preco_compra).toString(),
+                  style: const TextStyle(
+                      color: Colors.deepOrange,
+                    fontSize: 20
+                  ),
+              )
+            ],
+          ),
         ),
       ],
     );

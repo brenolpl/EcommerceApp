@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    produtosFuture = HomePageController.popular();
     _searchController = TextEditingController();
     _carrinhoController = CarrinhoController();
   }

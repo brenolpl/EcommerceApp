@@ -37,33 +37,39 @@ class _ListarProdutoPorCategoriaState extends State<ListarProdutoPorCategoria> {
           )
         ],
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: stream,
-        builder: (context, snapshot){
-          if(!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+      body: Container(
+        margin: const EdgeInsets.all(10),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: stream,
+          builder: (context, snapshot){
+            if(!snapshot.hasData) return const Center(child: CircularProgressIndicator());
 
-          if(snapshot.hasError) return const Text("error");
+            if(snapshot.hasError) return const Text("error");
 
-          _listarProdutos(snapshot.data!);
+            _listarProdutos(snapshot.data!);
 
-          return ListView.builder(
-              itemCount: produtos.length,
-              itemBuilder: (context, index) {
-                return ElevatedButton(
-                    onPressed: () {
-                      push(context, ProdutoDetail(produtos[index], widget._carrinhoController));
-                    },
-                    child: ProdutoWidget(produtos[index]),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white70.withOpacity(0.75)),
-                      overlayColor: MaterialStateProperty.all(Colors.deepOrange),
-                      shape: MaterialStateProperty.all(BeveledRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                      side: MaterialStateProperty.all(const BorderSide(width: 0.1, style: BorderStyle.solid)),
-                      shadowColor: MaterialStateProperty.all(Colors.black),
-                    )
-                );
-              });
-        },
+            return ListView.builder(
+                itemCount: produtos.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 7),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          push(context, ProdutoDetail(produtos[index], widget._carrinhoController));
+                        },
+                        child: ProdutoWidget(produtos[index]),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.white70.withOpacity(0.75)),
+                          overlayColor: MaterialStateProperty.all(Colors.deepOrange),
+                          shape: MaterialStateProperty.all(BeveledRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                          side: MaterialStateProperty.all(const BorderSide(width: 0.1, style: BorderStyle.solid)),
+                          shadowColor: MaterialStateProperty.all(Colors.black),
+                        )
+                    ),
+                  );
+                });
+          },
+        ),
       ),
     );
   }

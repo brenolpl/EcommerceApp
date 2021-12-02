@@ -1,13 +1,6 @@
-import 'package:appflutter/core/endereco.dart';
-import 'package:appflutter/core/endereco.dart';
 import 'package:appflutter/core/produto.dart';
 import 'package:appflutter/core/produto_categoria.dart';
-import 'package:appflutter/core/usuario.dart';
-//import 'package:appflutter/telas/widgets/novoProduto.dart';
-import 'package:appflutter/util/businessexception.dart';
-import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CadastrarProdutoController {

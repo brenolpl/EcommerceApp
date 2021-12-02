@@ -1,8 +1,6 @@
 import 'package:appflutter/core/produto.dart';
 import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/telas/controller/carrinhocontroller.dart';
-import 'package:appflutter/telas/controller/homepagecontroller.dart';
-import 'package:appflutter/telas/widgets/carrinho.dart';
+import 'package:appflutter/telas/widgets/carrinho/carrinho.dart';
 import 'package:appflutter/telas/widgets/menu.dart';
 import 'package:appflutter/telas/widgets/produtos/produto.dart';
 import 'package:appflutter/telas/widgets/produtos/produtodetail.dart';
@@ -22,7 +20,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late Future<List<Produto>> produtosFuture;
   late TextEditingController _searchController;
-  late CarrinhoController _carrinhoController;
   late List<Produto> produtos;
   Icon icon = const Icon(Icons.search);
   bool search = false;
@@ -33,13 +30,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-    _carrinhoController = CarrinhoController();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Menu(widget.usuario, _carrinhoController),
+      drawer: Menu(widget.usuario),
       appBar: AppBar(
         title: !search ? const Text("EcommerceApp") : TextField(
             style: const TextStyle(
@@ -78,7 +74,7 @@ class _HomePageState extends State<HomePage> {
           !search?IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {
-              push(context, Carrinho(_carrinhoController));
+              push(context, Carrinho(usuario: widget.usuario));
             },
           ): Container(),
         ],
@@ -103,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                         margin: const EdgeInsets.only(bottom: 7),
                         child: ElevatedButton(
                             onPressed: () {
-                              push(context, ProdutoDetail(produtos[index], _carrinhoController));
+                              push(context, ProdutoDetail(produtos[index], widget.usuario));
                             },
                             child: ProdutoWidget(produtos[index]),
                             style: ButtonStyle(

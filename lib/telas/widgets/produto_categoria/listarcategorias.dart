@@ -1,6 +1,5 @@
 import 'package:appflutter/core/produto_categoria.dart';
 import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/telas/controller/carrinhocontroller.dart';
 import 'package:appflutter/telas/widgets/produto_categoria/cadastrarcategoria.dart';
 import 'package:appflutter/telas/widgets/produto_categoria/listarprodutoporcategoria.dart';
 import 'package:appflutter/util/nav.dart';
@@ -9,9 +8,8 @@ import 'package:flutter/material.dart';
 
 class ListarCategorias extends StatefulWidget {
   Usuario usuario;
-  final CarrinhoController _carrinhoController;
 
-  ListarCategorias(this.usuario, this._carrinhoController, {Key? key}) : super(key: key);
+  ListarCategorias(this.usuario, {Key? key}) : super(key: key);
 
   @override
   _ListarCategoriasState createState() => _ListarCategoriasState();
@@ -53,7 +51,7 @@ class _ListarCategoriasState extends State<ListarCategorias> {
                   height: 50,
                   child: ElevatedButton(
                       onPressed: () {
-                        push(context, ListarProdutoPorCategoria(categorias[index], widget._carrinhoController));
+                        push(context, ListarProdutoPorCategoria(categorias[index], widget.usuario));
                       },
                       child: Text(categorias[index].nome, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal)),
                       style:

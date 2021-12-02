@@ -1,7 +1,7 @@
 import 'package:appflutter/core/produto.dart';
 import 'package:appflutter/core/produto_categoria.dart';
-import 'package:appflutter/telas/controller/carrinhocontroller.dart';
-import 'package:appflutter/telas/widgets/carrinho.dart';
+import 'package:appflutter/core/usuario.dart';
+import 'package:appflutter/telas/widgets/carrinho/carrinho.dart';
 import 'package:appflutter/telas/widgets/produtos/produto.dart';
 import 'package:appflutter/telas/widgets/produtos/produtodetail.dart';
 import 'package:appflutter/util/nav.dart';
@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 
 class ListarProdutoPorCategoria extends StatefulWidget {
   ProdutoCategoria produtoCategoria;
-  final CarrinhoController _carrinhoController;
+  Usuario usuario;
 
-  ListarProdutoPorCategoria(this.produtoCategoria, this._carrinhoController, {Key? key}) : super(key: key);
+  ListarProdutoPorCategoria(this.produtoCategoria, this.usuario, {Key? key}) : super(key: key);
 
 
   @override
@@ -32,7 +32,7 @@ class _ListarProdutoPorCategoriaState extends State<ListarProdutoPorCategoria> {
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {
-              push(context, Carrinho(widget._carrinhoController));
+              push(context, Carrinho());
             },
           )
         ],
@@ -55,7 +55,7 @@ class _ListarProdutoPorCategoriaState extends State<ListarProdutoPorCategoria> {
                     margin: const EdgeInsets.only(bottom: 7),
                     child: ElevatedButton(
                         onPressed: () {
-                          push(context, ProdutoDetail(produtos[index], widget._carrinhoController));
+                          push(context, ProdutoDetail(produtos[index], widget.usuario));
                         },
                         child: ProdutoWidget(produtos[index]),
                         style: ButtonStyle(

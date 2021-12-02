@@ -17,7 +17,6 @@ class _InicioState extends State<Inicio> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset("assets/icon/fav-icon.png", fit: BoxFit.contain),
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.only(bottom: 100),

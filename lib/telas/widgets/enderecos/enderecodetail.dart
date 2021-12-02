@@ -25,14 +25,7 @@ class EnderecoDetail extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      endereco.endereco,
-                      style: const TextStyle(
-                          color: Colors.black
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      endereco.numero,
+                      endereco.numero + ", "+endereco.endereco,
                       style: const TextStyle(
                           color: Colors.black
                       ),

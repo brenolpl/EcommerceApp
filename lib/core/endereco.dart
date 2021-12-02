@@ -41,4 +41,10 @@ class Endereco {
     }
     return data;
   }
+
+  @override
+  bool operator == (dynamic other) => other != null && other is Endereco && this.id == other.id;
+
+  @override
+  int get hashCode => super.hashCode;
 }

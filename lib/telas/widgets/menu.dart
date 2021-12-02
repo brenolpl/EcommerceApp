@@ -1,8 +1,8 @@
 import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/telas/controller/carrinhocontroller.dart';
 import 'package:appflutter/telas/widgets/usuario/cadastrarusuario.dart';
 import 'package:appflutter/telas/widgets/produto_categoria/listarcategorias.dart';
 import 'package:appflutter/telas/widgets/login.dart';
+import 'package:appflutter/telas/widgets/usuario/listarpedidos.dart';
 import 'package:appflutter/util/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,9 +10,8 @@ import 'package:flutter/material.dart';
 
 class Menu extends StatefulWidget {
   Usuario usuario;
-  final CarrinhoController _carrinhoController;
 
-  Menu(this.usuario, this._carrinhoController, {Key? key}) : super(key: key);
+  Menu(this.usuario, {Key? key}) : super(key: key);
 
   @override
   _MenuState createState() => _MenuState();
@@ -48,7 +47,7 @@ class _MenuState extends State<Menu> {
                     leading: const Icon(Icons.edit),
                     title: const Text("Minha conta"),
                     trailing: const Icon(Icons.arrow_forward),
-                    onTap: () async {
+                    onTap: () {
                       pop(context);
                       push(context, CadastrarUsuario("Meu perfil", true, usuario: widget.usuario));
                     },
@@ -56,12 +55,21 @@ class _MenuState extends State<Menu> {
 
                   ),
                   ListTile(
+                    leading: const Icon(Icons.format_list_bulleted_sharp),
+                    title: const Text("Meus pedidos"),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: (){
+                      pop(context);
+                      push(context, ListarPedidos(widget.usuario));
+                    },
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.category),
                     title: const Text("Categorias"),
                     trailing: const Icon(Icons.arrow_forward),
-                    onTap: () async {
+                    onTap: () {
                       pop(context);
-                      push(context, ListarCategorias(widget.usuario, widget._carrinhoController));
+                      push(context, ListarCategorias(widget.usuario));
                     }
 
                   ),

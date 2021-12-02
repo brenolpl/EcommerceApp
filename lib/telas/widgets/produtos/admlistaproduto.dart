@@ -1,6 +1,5 @@
 import 'package:appflutter/core/produto.dart';
 import 'package:appflutter/core/usuario.dart';
-import 'package:appflutter/telas/controller/carrinhocontroller.dart';
 import 'package:appflutter/telas/widgets/menu.dart';
 import 'package:appflutter/telas/widgets/produtos/admprodutodetail.dart';
 import 'package:appflutter/telas/widgets/produtos/novoproduto.dart';
@@ -36,7 +35,7 @@ class _AdmListaProdutoState extends State<AdmListaProduto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Menu(widget.userAdmin, CarrinhoController()),
+      drawer: Menu(widget.userAdmin),
       appBar: AppBar(
         title: !search ? const Text("Lista de Produtos") : TextField(
           style: const TextStyle(

@@ -1,4 +1,3 @@
-import 'package:appflutter/core/produto_categoria.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Produto {
